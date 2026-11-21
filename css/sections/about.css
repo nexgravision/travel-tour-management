@@ -1,0 +1,332 @@
+/* =========================================================
+   ABOUT - editorial media collage + studio story
+   Champagne hairlines, ivory surfaces, serif numerals.
+   ========================================================= */
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+/* ---------------------------------------------------------
+   MEDIA COLLAGE - single offset hairline frame
+   --------------------------------------------------------- */
+.about__media {
+  position: relative;
+  min-width: 0;
+}
+
+/* One 1px champagne hairline frame, offset 14px behind the collage */
+.about__media::before {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border: 1px solid var(--gold-500);
+  border-radius: var(--r-lg);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.about__img {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+}
+
+/* Editorial grade: barely desaturated, a touch more bite */
+.about__img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.94) contrast(1.02);
+}
+
+.about__img--main {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 4 / 4.4;
+  box-shadow: var(--sh-sm);
+}
+
+/* Small overlapping photo, bottom-right - calmer, thinner white edge */
+.about__img--float {
+  position: absolute;
+  right: -18px;
+  bottom: -26px;
+  z-index: 2;
+  width: clamp(140px, 34%, 208px);
+  aspect-ratio: 4 / 3;
+  border: 6px solid var(--white);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-md);
+  background: var(--white);
+}
+
+/* "15+ years" chip - ivory, hairline, serif numeral */
+.about__badge {
+  position: absolute;
+  left: -18px;
+  bottom: -24px;
+  z-index: 3;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem 1.15rem 0.9rem;
+  border: 1px solid var(--gold-500);
+  border-radius: var(--r-md);
+  background: var(--ivory);
+  box-shadow: var(--sh-sm);
+  text-align: left;
+  pointer-events: none;
+}
+
+/* Extremely subtle hairline breathe - never a gradient ring */
+.about__badge::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid var(--gold-500);
+  border-radius: inherit;
+  opacity: 0;
+  animation: about-badge-pulse 3.8s var(--ease) infinite;
+  pointer-events: none;
+}
+
+@keyframes about-badge-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(1.045);
+    opacity: 0;
+  }
+}
+
+.about__badge-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.about__badge-text {
+  font-family: var(--font-ui);
+  font-size: 0.63rem;
+  font-weight: 600;
+  line-height: 1.55;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate-600);
+}
+
+/* ---------------------------------------------------------
+   CONTENT
+   --------------------------------------------------------- */
+.about__content {
+  min-width: 0;
+}
+
+.about__content .section-title {
+  text-align: left;
+  margin-bottom: var(--sp-5);
+}
+
+.about__lead {
+  font-family: var(--font-ui);
+  font-size: clamp(1.06rem, 1.5vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin-bottom: var(--sp-5);
+}
+
+.about__text {
+  font-size: 0.975rem;
+  line-height: var(--lh-body);
+  color: var(--slate-600);
+  margin-bottom: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+/* ---------- Editorial list: hairline above every row ---------- */
+.about__points {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1.25rem, 3vw, 2.25rem);
+  row-gap: 0;
+}
+
+.about__points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding-block: clamp(1rem, 2vw, 1.2rem);
+  border-top: 1px solid var(--line);
+}
+
+/* Small ivory disc, gold hairline, gold check */
+.about__check {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-top: -1px;
+  border: 1px solid var(--gold-500);
+  border-radius: 50%;
+  background: var(--ivory);
+}
+
+.about__check svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--gold-700);
+}
+
+.about__points li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.about__points strong {
+  font-family: var(--font-ui);
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+.about__points li > div span {
+  font-size: var(--fs-xs);
+  line-height: 1.65;
+  color: var(--slate-600);
+}
+
+/* ---------- Actions ---------- */
+.about__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: clamp(1.8rem, 3.5vw, 2.5rem);
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 960px) {
+  .about {
+    grid-template-columns: 1fr;
+    gap: clamp(3rem, 8vw, 4.5rem);
+  }
+
+  /* Media stays first in the DOM, so it stacks on top */
+  .about__media {
+    max-width: 640px;
+    width: 100%;
+    margin-inline: auto;
+    /* room for the badge / float image that hang below the frame */
+    margin-bottom: clamp(3rem, 8vw, 4.5rem);
+  }
+
+  .about__content {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .about__media::before {
+    inset: -10px;
+  }
+
+  .about__img--float {
+    right: -12px;
+    bottom: -20px;
+    width: clamp(132px, 36%, 196px);
+  }
+
+  .about__badge {
+    left: -12px;
+    bottom: -18px;
+    padding: 0.75rem 1rem 0.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .about__points {
+    grid-template-columns: 1fr;
+  }
+
+  .about__media::before {
+    inset: -8px;
+  }
+
+  .about__img--main {
+    aspect-ratio: 4 / 3.8;
+  }
+
+  .about__img--float {
+    right: -8px;
+    bottom: -16px;
+    width: clamp(124px, 40%, 172px);
+  }
+
+  .about__badge {
+    left: -6px;
+    bottom: -14px;
+    padding: 0.65rem 0.9rem 0.7rem;
+  }
+
+  .about__badge::after {
+    inset: -4px;
+  }
+
+  .about__badge-num {
+    font-size: 1.6rem;
+  }
+
+  .about__badge-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (max-width: 480px) {
+  .about__media {
+    margin-bottom: 3.25rem;
+  }
+
+  .about__img--float {
+    width: clamp(118px, 44%, 152px);
+  }
+
+  .about__actions {
+    gap: 0.7rem;
+  }
+
+  .about__actions .btn {
+    flex: 1 1 auto;
+    min-width: min(100%, 13rem);
+  }
+}
+
+/* ---------- Motion safety ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .about__badge::after {
+    animation: none;
+    opacity: 0;
+  }
+}

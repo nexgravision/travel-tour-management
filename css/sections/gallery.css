@@ -1,0 +1,149 @@
+/* =========================================================
+   GALLERY - #gallery magazine grid (.gal-*)
+   Editorial mosaic: warm ivory gaps show the page through,
+   hairline-bordered tiles, muted photo treatment, calm
+   navy scrim captions in uppercase Inter.
+   The lightbox overlay itself is styled in components.css;
+   this file only styles the grid tiles and their captions.
+   ========================================================= */
+
+/* ---------- Grid ----------
+   10-12px gaps: the tinted page background reads as a warm
+   gutter between tiles. grid-auto-flow: dense keeps the
+   mixed spans packed with no holes. */
+.gal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 180px;
+  grid-auto-flow: dense;
+  gap: clamp(0.625rem, 1.1vw, 0.75rem);
+}
+
+/* Item 3 (markup class) is tall: 1 column x 2 rows.
+   Items 5 and 8 are deliberately wide: 2 columns x 1 row.
+   9 tiles -> 12 cells, which fills 4, 3 and 2-column rows
+   exactly with grid-auto-flow: dense (no holes). */
+.gal-item--tall {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.gal-item:nth-child(5),
+.gal-item:nth-child(8) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+/* ---------- Tile ---------- */
+.gal-item {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--mist);
+  cursor: zoom-in;
+}
+
+.gal-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.94) contrast(1.02);
+  transition:
+    transform var(--dur) var(--ease),
+    filter var(--dur) var(--ease);
+}
+
+.gal-item:hover img,
+.gal-item:focus-visible img {
+  transform: scale(1.03);
+  filter: saturate(1) contrast(1.02);
+}
+
+/* ---------- Caption overlay ----------
+   Flat navy-950 scrim rising from the bottom (no gradient),
+   uppercase Inter letterspaced in ivory - hover-revealed on
+   pointer devices, always visible when hover is unavailable. */
+.gal-item__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.7rem 0.9rem 0.8rem;
+  background: rgba(5, 15, 30, 0.8); /* --navy-950 at 80% */
+  color: var(--ivory);
+  font-family: var(--font-ui);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: left;
+  transform: translateY(110%);
+  transition: transform var(--dur) var(--ease);
+  pointer-events: none;
+}
+
+.gal-item:hover .gal-item__cap,
+.gal-item:focus-visible .gal-item__cap {
+  transform: translateY(0);
+}
+
+/* Keyboard focus: champagne ring, AA-safe against the light page */
+.gal-item:focus-visible {
+  outline: 3px solid var(--gold-600);
+  outline-offset: 3px;
+  border-radius: var(--r-md);
+}
+
+/* Touch / no-hover devices: the caption never hides behind a hover */
+@media (hover: none) {
+  .gal-item:hover .gal-item__cap,
+  .gal-item .gal-item__cap {
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .gal-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 170px;
+  }
+}
+
+@media (max-width: 680px) {
+  .gal-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 156px;
+  }
+}
+
+@media (max-width: 440px) {
+  .gal-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  /* Back to plain 1x1 tiles on one column - a column span would
+     otherwise mint an implicit second track. */
+  .gal-item,
+  .gal-item--tall,
+  .gal-item:nth-child(5),
+  .gal-item:nth-child(8) {
+    grid-column: span 1;
+    grid-row: span 1;
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .gal-item:hover img,
+  .gal-item:focus-visible img {
+    transform: none;
+  }
+}

@@ -1,0 +1,246 @@
+/* =========================================================
+   TOURS - Popular Tours section
+   .tour-grid > .tour-card (4 bestseller tour cards)
+   EDITORIAL LUXURY + RESTRAINED CHAMPAGNE:
+   white card, warm hairline, no resting shadow, serif titles,
+   calm uppercase micro-labels, champagne reserved for accents.
+   ========================================================= */
+
+/* ---------- Grid: 1 -> 2 (>=640) -> 3 (>=960) -> 4 (>=1180) ---------- */
+.tour-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.3rem, 2.5vw, 2rem);
+}
+
+@media (min-width: 640px) {
+  .tour-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .tour-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1180px) {
+  .tour-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------- Card shell ----------
+   White surface + 1px warm hairline, no resting shadow; hover
+   darkens the hairline, lifts 6px and adds --sh-sm only.
+   The `html.js .tour-card` twin exists to out-specify
+   `html.js .reveal` (same specificity, loaded later) so the hover
+   states transition smoothly while the reveal owns opacity/transform. */
+.tour-card,
+html.js .tour-card {
+  --tour-lift: -6px;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: none;
+  /* Per-property timing keeps the reveal stagger on opacity/transform
+     while the hover lift, hairline and shadow respond instantly. */
+  transition:
+    opacity var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms),
+    transform var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms),
+    translate var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+/* `translate` (not `transform`) keeps the hover lift clear of the
+   reveal transform, so it can never be overridden by it. */
+.tour-card:hover {
+  translate: 0 var(--tour-lift);
+  border-color: var(--line-strong);
+  box-shadow: var(--sh-sm);
+}
+
+/* ---------- Media + calm chips ---------- */
+.tour-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--mist);
+}
+
+.tour-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.94) contrast(1.02);
+  transition:
+    transform var(--dur-slow) var(--ease),
+    filter var(--dur) var(--ease);
+}
+
+.tour-card:hover .tour-card__media img {
+  transform: scale(1.05);
+  filter: saturate(1) contrast(1.02);
+}
+
+/* Shared chip language: small uppercase Inter, letterspaced,
+   solid ivory with a hairline - no glass blur, no gradients. */
+.tour-card__dur,
+.tour-card__rate {
+  position: absolute;
+  top: 0.85rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.36rem 0.72rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-full);
+  background: var(--ivory);
+  font-family: var(--font-ui);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Duration (top-left) - ivory chip, navy-950 label */
+.tour-card__dur {
+  left: 0.85rem;
+  color: var(--navy-950);
+}
+
+/* Rating (top-right) - champagne text on ivory */
+.tour-card__rate {
+  right: 0.85rem;
+  color: var(--gold-700);
+}
+
+.tour-card__dur svg,
+.tour-card__rate svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* ---------- Body ---------- */
+.tour-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(1.25rem, 2.2vw, 1.6rem);
+}
+
+/* Location: uppercase micro-label, muted slate, champagne pin */
+.tour-card__loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.65rem;
+  font-family: var(--font-ui);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--slate-500);
+}
+
+.tour-card__loc svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: var(--gold-700);
+  flex-shrink: 0;
+}
+
+/* Serif title: Playfair 500 in ink, champagne on card hover */
+.tour-card__body h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.55rem;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.tour-card:hover h3 {
+  color: var(--gold-700);
+}
+
+.tour-card__body p {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--slate-600);
+  margin-bottom: 1.15rem;
+}
+
+/* ---------- Footer: price + CTA ---------- */
+.tour-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.85rem;
+  margin-top: auto;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.tour-card__price {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--navy-900);
+  white-space: nowrap;
+}
+
+/* "per person" label: small uppercase Inter, muted */
+.tour-card__price small {
+  margin-bottom: 0.32rem;
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate-500);
+}
+
+.tour-card__foot .btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .tour-card:hover,
+  html.js .tour-card:hover {
+    translate: none;
+  }
+
+  .tour-card:hover .tour-card__media img {
+    transform: none;
+  }
+}
+
+/* Touch devices: :hover sticks after a tap, so skip the lift/zoom */
+@media (hover: none) {
+  .tour-card:hover,
+  html.js .tour-card:hover {
+    translate: none;
+  }
+
+  .tour-card:hover .tour-card__media img {
+    transform: none;
+  }
+}

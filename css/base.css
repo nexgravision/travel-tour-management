@@ -1,0 +1,287 @@
+/* =========================================================
+   BASE - reset, typography, layout primitives, motion
+   ========================================================= */
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 110px;
+  -webkit-text-size-adjust: 100%;
+  /* clip (not hidden) so pre-reveal transforms never create a horizontal scrollbar */
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--slate-600);
+  background: var(--ivory);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+ul[class],
+ol[class] {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: var(--lh-tight);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Serif italic accents are the signature of the editorial look */
+em {
+  font-style: italic;
+  color: var(--gold-500);
+  font-weight: 500;
+}
+
+/* Section titles sit on light surfaces - use the AA-safe gold there */
+.section-title em {
+  color: var(--gold-700);
+}
+
+strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+::selection {
+  background: var(--navy-700);
+  color: var(--white);
+}
+
+/* ---------- Layout ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-y);
+  position: relative;
+}
+
+.section--tint {
+  background: var(--cloud);
+  border-block: 1px solid var(--line);
+}
+
+.section-head {
+  max-width: 700px;
+  margin-inline: auto;
+  text-align: center;
+  margin-bottom: clamp(3rem, 6vw, 4.75rem);
+}
+
+.section-title {
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  margin-bottom: var(--sp-4);
+}
+
+.section-sub {
+  font-size: 1.02rem;
+  color: var(--slate-600);
+  line-height: 1.8;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-ui);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+  margin-bottom: var(--sp-4);
+}
+
+.section-tag::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--gold-500);
+}
+
+.section-tag--light {
+  color: var(--gold-400);
+}
+
+.section-tag--light::before {
+  background: var(--gold-400);
+}
+
+.section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 2000;
+  background: var(--navy-900);
+  color: var(--white);
+  padding: 0.7rem 1.1rem;
+  border-radius: 0 0 var(--r-sm) var(--r-sm);
+  transition: top var(--dur) var(--ease);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ---------- Scroll reveal (only when JS is running) ---------- */
+html.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  will-change: opacity, transform;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js .reveal[data-reveal="left"] {
+  transform: translate3d(-46px, 0, 0);
+}
+
+html.js .reveal[data-reveal="right"] {
+  transform: translate3d(46px, 0, 0);
+}
+
+html.js .reveal[data-reveal="zoom"] {
+  transform: scale(0.94);
+}
+
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Utilities ---------- */
+.link-btn {
+  color: var(--gold-700);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.link-btn:hover {
+  color: var(--navy-800);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Focus visibility everywhere */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--gold-600);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

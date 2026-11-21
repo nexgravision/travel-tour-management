@@ -1,0 +1,393 @@
+/* =========================================================
+   TESTIMONIALS - slider shell, quote cards, arrows, dots
+   Markup: .tst > .tst__viewport > .tst__track > .tst-slide
+           + [data-tst-prev] / [data-tst-next] + #tstDots
+   Direction: editorial luxury - ivory surface, warm hairlines,
+   champagne reserved for small accents only. No gradients,
+   no diagonal patterns, no heavy shadows.
+   ========================================================= */
+
+/* ---------- Shell: arrows flank the viewport on desktop ---------- */
+.tst {
+  --tst-gap: clamp(0.75rem, 2vw, 1.5rem);
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  /* row-gap stays 0 so the dots' own margin is the only spacing */
+  gap: 0 var(--tst-gap);
+}
+
+.tst__viewport {
+  grid-column: 2;
+  grid-row: 1;
+
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--cloud);
+  box-shadow: inset 0 0 0 1px var(--line);
+  /* horizontal swipe stays ours, vertical page scroll stays native */
+  touch-action: pan-y;
+}
+
+.tst__track {
+  display: flex;
+  width: 100%;
+  transform: translate3d(0, 0, 0);
+  transition: transform 600ms var(--ease-out);
+  will-change: transform;
+}
+
+.tst-slide {
+  display: flex;
+  flex: 0 0 100%;
+  min-width: 100%;
+  /* gutter keeps cards from touching the viewport edges */
+  padding: clamp(1rem, 2.6vw, 1.75rem) clamp(0.75rem, 2.4vw, 1.5rem);
+}
+
+/* ---------- Card: calm ivory page, one champagne hairline ---------- */
+.tst-card {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  text-align: center;
+  padding: clamp(2rem, 4vw, 3.2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--white);
+  box-shadow: var(--sh-sm);
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+/* a single short champagne hairline marks the top edge - nothing more */
+.tst-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 54px;
+  height: 1px;
+  transform: translateX(-50%);
+  background: var(--gold-500);
+}
+
+@media (hover: hover) {
+  .tst-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sh-md);
+  }
+}
+
+/* ---------- Quote mark: small champagne glyph, no gradient tile ---------- */
+.tst-card__quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 auto 1.35rem;
+  color: var(--gold-500);
+}
+
+.tst-card__quote svg {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+  opacity: 0.92;
+}
+
+.tst-card__quote::after {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+/* ---------- Stars ---------- */
+.tst-card__stars {
+  margin-bottom: 1.35rem;
+  color: var(--star);
+  font-size: 1.1rem;
+  line-height: 1;
+  letter-spacing: 0.24em;
+  /* trailing letter-space keeps the row optically centred */
+  text-indent: 0.24em;
+}
+
+/* ---------- Quote text: the hero of the card ---------- */
+.tst-card__text {
+  max-width: 720px;
+  margin-inline: auto;
+  font-family: var(--font-body);
+  font-size: 1.08rem;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+
+/* ---------- Person ---------- */
+.tst-card__person {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+
+.tst-card__person > span:last-child {
+  min-width: 0;
+  text-align: left;
+}
+
+/* avatar keeps its gradient fill inside a thin champagne hairline ring */
+.tst-card__avatar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--av, linear-gradient(135deg, var(--navy-700), var(--navy-600)));
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 3px var(--gold-500);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.tst-card__person strong {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.tst-card__person small {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--slate-500);
+}
+
+/* ---------- Arrows: hairline circles, navy inversion on hover ---------- */
+.tst__arrow {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  color: var(--navy-800);
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.tst__arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.tst__arrow:hover {
+  background: var(--navy-900);
+  border-color: var(--navy-900);
+  color: var(--ivory);
+}
+
+.tst__arrow:active {
+  transform: scale(0.97);
+}
+
+.tst__arrow--prev {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+}
+
+.tst__arrow--next {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+/* ---------- Dots (built by js/modules/testimonials.js) ----------
+   Thin hairline segments: inactive 16px, active champagne 30px.
+   The 24x24 button box is the hit area; the line is a pseudo-element. */
+.tst__dots {
+  grid-column: 1 / -1;
+  grid-row: 2;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.6rem;
+}
+
+.tst__dots:empty {
+  display: none;
+}
+
+.tst__dots button {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.tst__dots button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+  background: var(--line-strong);
+  transition:
+    width var(--dur) var(--ease),
+    background-color var(--dur) var(--ease);
+}
+
+.tst__dots button:not(.is-active):hover::before {
+  background: var(--slate-500);
+}
+
+.tst__dots button.is-active::before {
+  width: 30px;
+  background: var(--gold-500);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .tst__arrow {
+    width: 46px;
+    height: 46px;
+  }
+
+  .tst__arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Arrows + dots share a row beneath the viewport */
+@media (max-width: 768px) {
+  .tst {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    row-gap: 1.15rem;
+  }
+
+  .tst__viewport {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .tst__arrow--prev {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  .tst__arrow--next {
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: end;
+  }
+
+  .tst__dots {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 0;
+  }
+
+  .tst__arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .tst__arrow svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .tst-card {
+    padding: clamp(1.6rem, 6vw, 2.4rem);
+  }
+
+  .tst-card__text {
+    font-size: 1.02rem;
+    line-height: 1.85;
+  }
+}
+
+@media (max-width: 480px) {
+  .tst {
+    row-gap: 1rem;
+  }
+
+  .tst__arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tst__arrow svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .tst__dots {
+    gap: 0.4rem;
+  }
+
+  .tst-slide {
+    padding-inline: 0.5rem;
+  }
+
+  .tst-card__quote {
+    gap: 0.7rem;
+  }
+
+  .tst-card__quote svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .tst-card__stars {
+    font-size: 1.02rem;
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+  }
+
+  .tst-card__text {
+    font-size: 1rem;
+    line-height: 1.82;
+  }
+
+  .tst-card__person {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .tst-card__person > span:last-child {
+    text-align: center;
+  }
+}

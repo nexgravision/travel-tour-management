@@ -1,0 +1,171 @@
+/* =========================================================
+   SERVICES - six editorial cards on the tinted band
+   White surfaces, warm hairlines, no resting depth.
+   ========================================================= */
+
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+/* ---------------------------------------------------------
+   CARD
+   --------------------------------------------------------- */
+.svc-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: clamp(1.7rem, 3vw, 2.4rem);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition:
+    translate var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+/* Hover lift + resting reveal transition (must out-specify html.js .reveal) */
+.svc-grid .svc-card.reveal {
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    translate var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Hover must not inherit the entrance stagger delay */
+.svc-grid .svc-card.reveal:hover {
+  transition-delay: 0ms;
+}
+
+.svc-card:hover {
+  translate: 0 -4px;
+  border-color: var(--gold-400);
+  box-shadow: var(--sh-sm);
+}
+
+/* ---------------------------------------------------------
+   ICON - ivory disc, hairline, navy glyph
+   --------------------------------------------------------- */
+.svc-card__icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  border: 1px solid var(--gold-500);
+  border-radius: 50%;
+  background: var(--ivory);
+  color: var(--navy-800);
+  transition: border-color var(--dur) var(--ease);
+}
+
+.svc-card__icon svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+/* Two of the inline glyphs are line-art, not filled shapes */
+.svc-card:nth-child(2) .svc-card__icon svg,
+.svc-card:nth-child(6) .svc-card__icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.svc-card:hover .svc-card__icon {
+  border-color: var(--gold-600);
+}
+
+/* ---------------------------------------------------------
+   COPY + LINK
+   --------------------------------------------------------- */
+.svc-card h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  color: var(--ink);
+  margin-block: 0.1rem;
+}
+
+.svc-card p {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  line-height: 1.75;
+  color: var(--slate-600);
+}
+
+.svc-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+  transition: color var(--dur) var(--ease);
+}
+
+.svc-card__link svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur) var(--ease);
+}
+
+.svc-card:hover .svc-card__link svg,
+.svc-card__link:hover svg {
+  transform: translateX(5px);
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 1079.98px) {
+  .svc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 719.98px) {
+  .svc-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(1.15rem, 4vw, 1.75rem);
+  }
+
+  .svc-card {
+    padding: clamp(1.5rem, 5vw, 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .svc-card:hover {
+    translate: 0 -3px;
+  }
+}
+
+/* ---------- Motion safety ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .svc-card:hover {
+    translate: none;
+  }
+}

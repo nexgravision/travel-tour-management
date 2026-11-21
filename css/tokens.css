@@ -1,0 +1,113 @@
+/* =========================================================
+   DESIGN TOKENS - NexGravision Tours & Travel
+   Direction: EDITORIAL LUXURY + RESTRAINED CHAMPAGNE
+   Warm ivory surfaces, deep navy ink, serif display type,
+   champagne gold used only for hairlines and micro-labels.
+   Single source of truth: colour, type, spacing, motion.
+   ========================================================= */
+
+:root {
+  /* ---- Deep navy (ink + dark surfaces) ---- */
+  --navy-950: #050f1e;
+  --navy-900: #08182e;
+  --navy-800: #0c2340;
+  --navy-700: #123055;
+  --navy-600: #1a3f6e;
+
+  /* ---- Muted sky (decorative only, never small text) ---- */
+  --sky-600: #33667f;
+  --sky-500: #4e7e99;
+  --sky-400: #7fa8be;
+  --sky-300: #a9c7d6;
+  --sky-50: #f1f5f7;
+
+  /* ---- Champagne gold ---- */
+  --gold-700: #8a6d2f; /* AA-safe gold text on ivory/white */
+  --gold-600: #a8853c;
+  --gold-500: #c9a45c; /* signature champagne accent */
+  --gold-400: #d9bc85;
+  --gold-300: #eadbb8;
+  --gold-50: #fbf7ef;
+
+  /* ---- Warm neutrals ---- */
+  --white: #ffffff;
+  --ivory: #faf8f4; /* page background */
+  --cloud: #f5f2ec; /* tinted section */
+  --mist: #efeae2;
+  --line: #e7e1d7; /* warm hairline */
+  --line-strong: #d8d0c3;
+  --slate-600: #4e555e; /* body copy */
+  --slate-500: #6b7280; /* muted labels */
+  --ink: #0e1b2d; /* headings */
+  --ink-soft: #26334a;
+
+  /* ---- Semantic ---- */
+  --success: #1f7a56;
+  --success-soft: #eaf5f0;
+  --danger: #b4433f;
+  --danger-soft: #fbeeec;
+  --star: #c9a45c;
+
+  /* ---- Typography ---- */
+  --font-display: "Playfair Display", "Times New Roman", Georgia, serif;
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --fs-hero: clamp(2.9rem, 6.4vw, 5.1rem);
+  --fs-h1: clamp(2.3rem, 4.6vw, 3.6rem);
+  --fs-h2: clamp(1.95rem, 3.8vw, 3rem);
+  --fs-h3: clamp(1.2rem, 1.7vw, 1.5rem);
+  --fs-h4: 1.05rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.925rem;
+  --fs-xs: 0.82rem;
+  --fs-eyebrow: 0.72rem;
+
+  --lh-tight: 1.12;
+  --lh-snug: 1.35;
+  --lh-body: 1.78;
+
+  /* ---- Spacing scale ---- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 2.75rem;
+  --sp-8: 3.5rem;
+  --section-y: clamp(5.5rem, 10vw, 9rem);
+  --container: 1240px;
+  --container-narrow: 960px;
+  --gutter: clamp(1.25rem, 4vw, 2.25rem);
+
+  /* ---- Radii (restrained) ---- */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --r-full: 999px;
+
+  /* ---- Shadows (soft, low-contrast depth) ---- */
+  --sh-xs: 0 1px 2px rgba(14, 27, 45, 0.05);
+  --sh-sm: 0 2px 10px rgba(14, 27, 45, 0.06);
+  --sh-md: 0 8px 26px rgba(14, 27, 45, 0.08);
+  --sh-lg: 0 18px 50px rgba(14, 27, 45, 0.12);
+  --sh-gold: 0 8px 24px rgba(201, 164, 92, 0.26);
+  --sh-navy: 0 8px 24px rgba(8, 24, 46, 0.22);
+  --sh-card-hover: 0 14px 36px rgba(14, 27, 45, 0.1);
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 180ms;
+  --dur: 320ms;
+  --dur-slow: 640ms;
+
+  /* ---- Layering ---- */
+  --z-header: 900;
+  --z-toast: 1200;
+  --z-lightbox: 1300;
+  --z-modal: 1400;
+}

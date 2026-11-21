@@ -1,0 +1,467 @@
+/* =========================================================
+   PACKAGES - category tabs, package cards, wishlist button
+   EDITORIAL LUXURY + RESTRAINED CHAMPAGNE
+   Hairline switcher, white cards, serif pricing, calm
+   dot-separated inclusions row.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   CATEGORY TABS - hairline switcher, gold underline active
+   --------------------------------------------------------- */
+.pkg-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto clamp(2.25rem, 4.5vw, 3.25rem);
+  padding: 0.35rem;
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  /* If the row ever overflows it scrolls - without a visible bar */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pkg-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.pkg-tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--r-full);
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--slate-500);
+  transition:
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+/* Champagne hairline that draws in under the active tab */
+.pkg-tab::after {
+  content: "";
+  position: absolute;
+  left: 1.1rem;
+  right: 1.1rem;
+  bottom: 0.34rem;
+  height: 1px;
+  background: var(--gold-500);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--dur) var(--ease);
+}
+
+.pkg-tab:hover {
+  color: var(--navy-800);
+}
+
+.pkg-tab:active {
+  transform: scale(0.97);
+}
+
+/* Declared after :hover so the active state always wins */
+.pkg-tab.is-active {
+  color: var(--navy-900);
+}
+
+.pkg-tab.is-active::after {
+  transform: scaleX(1);
+}
+
+.pkg-tab.is-active:hover {
+  color: var(--navy-900);
+}
+
+/* ---------------------------------------------------------
+   GRID - 1 col mobile → 2 → 3
+   --------------------------------------------------------- */
+.pkg-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.4rem, 2.6vw, 2.2rem);
+}
+
+@media (min-width: 720px) {
+  .pkg-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .pkg-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------
+   CARD SHELL (same reveal-safe pattern as destinations)
+   --------------------------------------------------------- */
+.pkg-card,
+html.js .pkg-card {
+  --pkg-pad: clamp(1.3rem, 2.4vw, 1.9rem);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-xs);
+  overflow: hidden;
+  transition:
+    opacity var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms),
+    transform var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms),
+    translate var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.pkg-card:hover {
+  translate: 0 -6px;
+  box-shadow: var(--sh-sm);
+  border-color: var(--gold-400);
+}
+
+/* ---------------------------------------------------------
+   MEDIA - photo, editorial filter, hover zoom
+   --------------------------------------------------------- */
+.pkg-card__media {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  background: var(--mist);
+}
+
+.pkg-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Slightly desaturated at rest, full colour on hover */
+  filter: saturate(0.94) contrast(1.02);
+  transition:
+    transform 700ms var(--ease),
+    filter var(--dur-slow) var(--ease);
+}
+
+.pkg-card:hover .pkg-card__media img {
+  transform: scale(1.05);
+  filter: saturate(1) contrast(1.02);
+}
+
+/* Category tag - quiet ivory chip, top left */
+.pkg-card__tag {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 3;
+  padding: 0.34rem 0.7rem;
+  border-radius: var(--r-xs);
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  color: var(--navy-800);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* International reads as the deeper, navy chip */
+.pkg-card__tag--intl {
+  background: var(--navy-900);
+  border-color: var(--navy-900);
+  color: var(--ivory);
+}
+
+/* Favourite - circular ivory button, top right corner */
+.pkg-card__fav {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 50%;
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-xs);
+  color: var(--navy-800);
+  transition:
+    transform var(--dur) var(--ease),
+    color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.pkg-card__fav svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill var(--dur-fast) var(--ease);
+}
+
+.pkg-card__fav:hover {
+  transform: scale(1.06);
+  color: var(--gold-700);
+  border-color: var(--gold-400);
+}
+
+.pkg-card__fav.is-active {
+  background: var(--white);
+  border-color: var(--gold-400);
+  color: var(--gold-700);
+  box-shadow: var(--sh-xs);
+  animation: pkg-fav-pop 380ms var(--ease);
+}
+
+.pkg-card__fav.is-active svg {
+  fill: var(--gold-500);
+  stroke: var(--gold-600);
+}
+
+@keyframes pkg-fav-pop {
+  0% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.28);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------------------------------------------------------
+   BODY
+   --------------------------------------------------------- */
+.pkg-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--pkg-pad);
+}
+
+.pkg-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 0.75rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate-500);
+}
+
+.pkg-card__meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pkg-card__meta svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+  fill: var(--slate-500);
+}
+
+.pkg-card__rating {
+  font-weight: 600;
+  color: var(--navy-800);
+  white-space: nowrap;
+}
+
+.pkg-card__rating svg {
+  fill: var(--gold-500);
+}
+
+.pkg-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.pkg-card:hover .pkg-card__title {
+  color: var(--gold-700);
+}
+
+.pkg-card__text {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--slate-600);
+  margin-bottom: 1.1rem;
+}
+
+/* Included - one calm row of uppercase micro-labels,
+   separated by champagne hairline dots */
+.pkg-card__incl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1.15rem;
+}
+
+.pkg-card__incl li {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate-500);
+  white-space: nowrap;
+}
+
+.pkg-card__incl li:not(:last-child)::after {
+  content: "";
+  width: 3px;
+  height: 3px;
+  margin-inline: 0.6rem;
+  border-radius: 50%;
+  background: var(--gold-400);
+}
+
+/* ---------------------------------------------------------
+   FOOT - hairline divider, serif price + book button
+   --------------------------------------------------------- */
+.pkg-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.pkg-card__price {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.9vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.pkg-card__price small {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate-500);
+  margin-bottom: 0.15rem;
+}
+
+.pkg-card__foot .btn {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Filtered-out state (class toggled by tabs.js) */
+.pkg-grid > .pkg-card.is-hidden {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   SMALL SCREENS
+   --------------------------------------------------------- */
+@media (max-width: 640px) {
+  .pkg-card__incl li:not(:last-child)::after {
+    margin-inline: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pkg-tabs {
+    justify-content: flex-start;
+    padding: 0.3rem;
+  }
+
+  .pkg-tab {
+    padding: 0.45rem 0.9rem;
+    letter-spacing: 0.14em;
+  }
+
+  .pkg-tab::after {
+    left: 0.9rem;
+    right: 0.9rem;
+  }
+
+  .pkg-card__tag,
+  .pkg-card__fav {
+    top: 0.7rem;
+  }
+
+  .pkg-card__tag {
+    left: 0.7rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .pkg-card__fav {
+    right: 0.7rem;
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .pkg-card__foot {
+    gap: 0.6rem;
+  }
+}
+
+/* ---------------------------------------------------------
+   REDUCED MOTION
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .pkg-card:hover {
+    translate: none;
+  }
+
+  .pkg-card:hover .pkg-card__media img {
+    transform: none;
+  }
+
+  .pkg-tab::after {
+    transition: none;
+  }
+
+  .pkg-card__fav.is-active {
+    animation: none;
+  }
+}
