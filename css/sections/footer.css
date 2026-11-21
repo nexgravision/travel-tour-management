@@ -343,15 +343,24 @@
 }
 
 @media (max-width: 560px) {
+  /* Keep the two link lists side by side on phones so the footer does
+     not run for two full screens; brand and newsletter span the row. */
   .footer__top {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
   }
 
-  /* Single column: a hairline above every block except the first */
-  .footer__top > :nth-child(n + 2) {
+  .footer__brand,
+  .footer__col--news {
+    grid-column: 1 / -1;
+  }
+
+  /* A hairline above each stacked row */
+  .footer__top > :nth-child(2),
+  .footer__top > :nth-child(3),
+  .footer__top > :nth-child(4) {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 1.6rem;
+    padding-top: 1.4rem;
   }
 
   .footer__bottom {

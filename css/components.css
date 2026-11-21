@@ -14,14 +14,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  padding: 0.9rem 1.9rem;
+  gap: 0.5rem;
+  /* Mobile-first: compact control (~44px) that still clears touch targets.
+     line-height must be set explicitly or buttons inherit the body's 1.78. */
+  padding: 0.8rem 1.4rem;
   border-radius: var(--r-full);
   background: var(--btn-bg);
   color: var(--btn-fg);
   font-family: var(--font-ui);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
+  line-height: 1.25;
   letter-spacing: 0.04em;
   border: 1px solid transparent;
   isolation: isolate;
@@ -114,32 +117,53 @@
 }
 
 .btn--sm {
-  padding: 0.6rem 1.25rem;
-  font-size: 0.875rem;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.8rem;
 }
 
 .btn--lg {
-  padding: 1.05rem 2.2rem;
-  font-size: 1rem;
+  padding: 0.95rem 1.7rem;
+  font-size: 0.925rem;
 }
 
 .btn--block {
   width: 100%;
 }
 
+/* Mobile-first: give controls a little more presence once there is room */
+@media (min-width: 768px) {
+  .btn {
+    padding: 0.85rem 1.6rem;
+    font-size: 0.9rem;
+  }
+
+  .btn--sm {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.825rem;
+  }
+
+  .btn--lg {
+    padding: 1rem 1.95rem;
+    font-size: 0.95rem;
+  }
+}
+
 .btn__play {
   display: inline-grid;
   place-items: center;
-  width: 1.9em;
-  height: 1.9em;
+  width: 1.4em;
+  height: 1.4em;
+  /* keeps the badge visually round without inflating the button's height */
+  margin-block: -0.16em;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--gold-500);
   color: var(--navy-900);
 }
 
 .btn__play svg {
-  width: 0.95em;
-  height: 0.95em;
+  width: 0.78em;
+  height: 0.78em;
   fill: currentColor;
 }
 
@@ -149,7 +173,7 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.32rem;
   min-width: 0;
 }
 
@@ -182,11 +206,13 @@
 .field select,
 .field textarea {
   width: 100%;
-  padding: 0.95rem 1rem 0.95rem 2.7rem;
+  /* Mobile-first: ~44px tall; explicit line-height stops the body's 1.78 inflating it */
+  padding: 0.72rem 0.9rem 0.72rem 2.4rem;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--r-xs);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
+  line-height: 1.4;
   color: var(--ink);
   transition:
     border-color var(--dur-fast) var(--ease),
@@ -197,7 +223,14 @@
 .field textarea {
   padding-left: 1rem;
   resize: vertical;
-  min-height: 120px;
+  min-height: 104px;
+}
+
+@media (min-width: 768px) {
+  .field input,
+  .field select {
+    padding: 0.8rem 1rem 0.8rem 2.55rem;
+  }
 }
 
 .field input::placeholder,
