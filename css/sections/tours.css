@@ -3,7 +3,7 @@
    .tour-grid > .tour-card (4 bestseller tour cards)
    EDITORIAL LUXURY + RESTRAINED CHAMPAGNE:
    white card, warm hairline, no resting shadow, serif titles,
-   calm uppercase micro-labels, champagne reserved for accents.
+   Calm brick rating chip, moss pin, serif pricing.
    ========================================================= */
 
 /* ---------- Grid: 1 -> 2 (>=640) -> 3 (>=960) -> 4 (>=1180) ---------- */
@@ -61,8 +61,8 @@ html.js .tour-card {
    reveal transform, so it can never be overridden by it. */
 .tour-card:hover {
   translate: 0 var(--tour-lift);
-  border-color: var(--line-strong);
-  box-shadow: var(--sh-sm);
+  border-color: var(--aqua-400);
+  box-shadow: var(--sh-card-hover);
 }
 
 /* ---------- Media + calm chips ---------- */
@@ -117,7 +117,7 @@ html.js .tour-card {
   color: var(--navy-950);
 }
 
-/* Rating (top-right) - champagne text on ivory */
+/* Rating (top-right) - brick text on cream */
 .tour-card__rate {
   right: 0.85rem;
   color: var(--gold-700);
@@ -139,7 +139,7 @@ html.js .tour-card {
   padding: clamp(1.25rem, 2.2vw, 1.6rem);
 }
 
-/* Location: uppercase micro-label, muted slate, champagne pin */
+/* Location: uppercase micro-label, muted slate, moss pin */
 .tour-card__loc {
   display: inline-flex;
   align-items: center;
@@ -156,11 +156,11 @@ html.js .tour-card {
 .tour-card__loc svg {
   width: 0.9rem;
   height: 0.9rem;
-  fill: var(--gold-700);
+  fill: var(--aqua-500);
   flex-shrink: 0;
 }
 
-/* Serif title: Playfair 500 in ink, champagne on card hover */
+/* Serif title: Playfair 500 in ink, moss on card hover */
 .tour-card__body h3 {
   font-family: var(--font-display);
   font-weight: 500;
@@ -171,7 +171,7 @@ html.js .tour-card {
 }
 
 .tour-card:hover h3 {
-  color: var(--gold-700);
+  color: var(--aqua-700);
 }
 
 .tour-card__body p {
@@ -181,7 +181,7 @@ html.js .tour-card {
   margin-bottom: 1.15rem;
 }
 
-/* ---------- Footer: price + CTA ---------- */
+/* ---------- Footer: price ---------- */
 .tour-card__foot {
   display: flex;
   flex-wrap: wrap;
@@ -209,16 +209,11 @@ html.js .tour-card {
 .tour-card__price small {
   margin-bottom: 0.32rem;
   font-family: var(--font-ui);
-  font-size: 0.66rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--slate-500);
-}
-
-.tour-card__foot .btn {
-  flex-shrink: 0;
-  white-space: nowrap;
 }
 
 /* ---------- Reduced motion ---------- */

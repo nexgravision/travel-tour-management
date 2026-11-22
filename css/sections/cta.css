@@ -1,8 +1,8 @@
 /* =========================================================
    CTA BAND - full-bleed cinematic close
    Markup: .cta-band > .cta-band__bg(img) + .cta-band__inner
-   Direction: deep-ink navy scrim over the photo (no blue
-   wash, no diagonal pattern), champagne reserved for the
+   Direction: deep-ink espresso scrim over the photo (no blue
+   wash, no diagonal pattern), brick reserved for the
    eyebrow, the hairline frame and the flat gold button.
    ========================================================= */
 
@@ -50,8 +50,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(68% 60% at 76% 16%, rgba(201, 164, 92, 0.14), transparent 62%),
-    linear-gradient(180deg, rgba(5, 15, 30, 0.92) 0%, rgba(8, 24, 46, 0.88) 100%);
+    radial-gradient(68% 60% at 78% 14%, rgba(124, 138, 92, 0.28), transparent 62%),
+    radial-gradient(56% 52% at 6% 96%, rgba(176, 113, 79, 0.18), transparent 64%),
+    linear-gradient(180deg, rgba(32, 26, 21, 0.93) 0%, rgba(42, 34, 27, 0.9) 100%);
 }
 
 /* ---------- Content ---------- */
@@ -62,16 +63,17 @@
   margin-inline: auto;
 }
 
-/* editorial frame: one champagne hairline above, one below */
+/* editorial frame: one brick-and-moss hairline above, one below */
 .cta-band__inner::before,
 .cta-band__inner::after {
   content: "";
   display: block;
   width: clamp(72px, 12vw, 140px);
-  height: 1px;
+  height: 3px;
+  border-radius: var(--r-full);
   margin-inline: auto;
-  background: var(--gold-400);
-  opacity: 0.72;
+  background: var(--grad-horizon);
+  opacity: 0.85;
 }
 
 .cta-band__inner::before {

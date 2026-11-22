@@ -87,7 +87,7 @@
     navMenu.addEventListener("click", function (e) {
       var target = e.target;
       if (!target) return;
-      /* Any in-drawer anchor (nav links, the Book Now CTA) closes it */
+      /* Any in-drawer anchor (nav links) closes it */
       var link =
         typeof target.closest === "function" ? target.closest('a[href^="#"]') : null;
       if (!link || !navMenu.contains(link)) return;

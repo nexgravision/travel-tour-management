@@ -3,19 +3,22 @@
 A premium, editorial-luxury travel agency website frontend — handcrafted with
 vanilla HTML, CSS and JavaScript. No frameworks, no build step, no dependencies.
 
-**Design direction:** editorial luxury with restrained champagne accents —
-Playfair Display serif headlines, Inter for UI, warm ivory surfaces, hairline
-rules and generous whitespace.
+**Design direction:** earth tones - warm cream surfaces, espresso darks, Playfair
+Display serif headlines with Inter for UI, muted brick clay for warm emphasis
+(prices, CTAs) and mossy olive green for the organic accent (links, focus, tags).
+A harmonised, boutique palette.
 
 ## Features
 
-- **Full-screen hero** with cinematic backdrop, animated search form (destination · date · travellers) and CTA buttons
-- **Destinations** — 8 filterable cards with real pricing, ratings and details
+- **Static showcase** — no backend, database, booking or appointment flow; every
+  section is plain HTML you can edit directly in `index.html`
+- **Full-screen hero** with cinematic backdrop and CTA buttons
+- **Destinations** — 8 cards with real pricing, ratings and details
 - **Tour packages** — domestic & international with tabbed filtering and wishlist toggles
 - **Popular tours**, **services** (flights, hotels, holidays, honeymoon, group, custom), **about** with animated counters
 - **Gallery** with keyboard-accessible lightbox (focus trap, arrow navigation)
 - **Testimonials** slider with autoplay, swipe and ARIA tab pattern
-- **Contact form** with client-side validation, package prefill and newsletter signup
+- **Contact section** with call, email, office address and head-office details
 - **Legal modals** (privacy / terms / cookies), toasts, back-to-top, sticky hide-on-scroll header
 - Fully **responsive** (1440 → 360 px), WCAG AA contrast, `prefers-reduced-motion` respected
 
@@ -40,8 +43,8 @@ css/
   sections/*.css      one stylesheet per section
 js/
   main.js             shared helpers (NG namespace, anchors, toasts)
-  modules/*.js        nav, reveal, search, tabs, gallery,
-                      testimonials, contact, modal
+  modules/*.js        nav, reveal, tabs, gallery,
+                      testimonials, modal
 ```
 
 ## Run locally

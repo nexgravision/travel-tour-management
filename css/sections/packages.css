@@ -6,7 +6,7 @@
    ========================================================= */
 
 /* ---------------------------------------------------------
-   CATEGORY TABS - hairline switcher, gold underline active
+   CATEGORY TABS - frosted segmented control, moss active pill
    --------------------------------------------------------- */
 .pkg-tabs {
   display: flex;
@@ -17,10 +17,11 @@
   width: fit-content;
   max-width: 100%;
   margin: 0 auto clamp(2.25rem, 4.5vw, 3.25rem);
-  padding: 0.35rem;
-  background: var(--ivory);
+  padding: 0.4rem;
+  background: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--r-full);
+  box-shadow: var(--sh-xs);
   /* If the row ever overflows it scrolls - without a visible bar */
   overflow-x: auto;
   scrollbar-width: none;
@@ -34,7 +35,7 @@
 .pkg-tab {
   position: relative;
   flex: 0 0 auto;
-  padding: 0.5rem 1.1rem;
+  padding: 0.75rem 1.35rem;
   border-radius: var(--r-full);
   background: transparent;
   font-family: var(--font-ui);
@@ -47,25 +48,14 @@
   color: var(--slate-500);
   transition:
     color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease),
     transform var(--dur-fast) var(--ease);
 }
 
-/* Champagne hairline that draws in under the active tab */
-.pkg-tab::after {
-  content: "";
-  position: absolute;
-  left: 1.1rem;
-  right: 1.1rem;
-  bottom: 0.34rem;
-  height: 1px;
-  background: var(--gold-500);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform var(--dur) var(--ease);
-}
-
 .pkg-tab:hover {
-  color: var(--navy-800);
+  color: var(--aqua-700);
+  background: var(--aqua-50);
 }
 
 .pkg-tab:active {
@@ -73,16 +63,11 @@
 }
 
 /* Declared after :hover so the active state always wins */
-.pkg-tab.is-active {
-  color: var(--navy-900);
-}
-
-.pkg-tab.is-active::after {
-  transform: scaleX(1);
-}
-
+.pkg-tab.is-active,
 .pkg-tab.is-active:hover {
-  color: var(--navy-900);
+  color: var(--white);
+  background: var(--grad-brand);
+  box-shadow: var(--sh-aqua);
 }
 
 /* ---------------------------------------------------------
@@ -130,8 +115,8 @@ html.js .pkg-card {
 
 .pkg-card:hover {
   translate: 0 -6px;
-  box-shadow: var(--sh-sm);
-  border-color: var(--gold-400);
+  box-shadow: var(--sh-card-hover);
+  border-color: var(--aqua-400);
 }
 
 /* ---------------------------------------------------------
@@ -311,7 +296,7 @@ html.js .pkg-card {
 }
 
 .pkg-card:hover .pkg-card__title {
-  color: var(--gold-700);
+  color: var(--aqua-700);
 }
 
 .pkg-card__text {
@@ -322,7 +307,7 @@ html.js .pkg-card {
 }
 
 /* Included - one calm row of uppercase micro-labels,
-   separated by champagne hairline dots */
+   separated by brick hairline dots */
 .pkg-card__incl {
   display: flex;
   flex-wrap: wrap;
@@ -352,7 +337,7 @@ html.js .pkg-card {
 }
 
 /* ---------------------------------------------------------
-   FOOT - hairline divider, serif price + book button
+   FOOT - hairline divider + serif price
    --------------------------------------------------------- */
 .pkg-card__foot {
   display: flex;
@@ -387,11 +372,6 @@ html.js .pkg-card {
   margin-bottom: 0.15rem;
 }
 
-.pkg-card__foot .btn {
-  flex-shrink: 0;
-  margin-left: auto;
-}
-
 /* Filtered-out state (class toggled by tabs.js) */
 .pkg-grid > .pkg-card.is-hidden {
   display: none;
@@ -413,13 +393,8 @@ html.js .pkg-card {
   }
 
   .pkg-tab {
-    padding: 0.45rem 0.9rem;
+    padding: 0.7rem 1.05rem;
     letter-spacing: 0.14em;
-  }
-
-  .pkg-tab::after {
-    left: 0.9rem;
-    right: 0.9rem;
   }
 
   .pkg-card__tag,
@@ -429,15 +404,15 @@ html.js .pkg-card {
 
   .pkg-card__tag {
     left: 0.7rem;
-    font-size: 0.64rem;
-    letter-spacing: 0.14em;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
     padding: 0.3rem 0.6rem;
   }
 
   .pkg-card__fav {
     right: 0.7rem;
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   .pkg-card__foot {

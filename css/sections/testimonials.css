@@ -3,7 +3,7 @@
    Markup: .tst > .tst__viewport > .tst__track > .tst-slide
            + [data-tst-prev] / [data-tst-next] + #tstDots
    Direction: editorial luxury - ivory surface, warm hairlines,
-   champagne reserved for small accents only. No gradients,
+   brick reserved for small accents only. No gradients,
    no diagonal patterns, no heavy shadows.
    ========================================================= */
 
@@ -47,7 +47,7 @@
   padding: clamp(1rem, 2.6vw, 1.75rem) clamp(0.75rem, 2.4vw, 1.5rem);
 }
 
-/* ---------- Card: calm ivory page, one champagne hairline ---------- */
+/* ---------- Card: calm white page, one sun-to-sea hairline ---------- */
 .tst-card {
   position: relative;
   flex: 1;
@@ -63,16 +63,17 @@
     box-shadow var(--dur) var(--ease);
 }
 
-/* a single short champagne hairline marks the top edge - nothing more */
+/* a single sun-to-sea hairline marks the top edge - nothing more */
 .tst-card::before {
   content: "";
   position: absolute;
   top: 0;
   left: 50%;
-  width: 54px;
-  height: 1px;
+  width: 64px;
+  height: 3px;
+  border-radius: 0 0 var(--r-full) var(--r-full);
   transform: translateX(-50%);
-  background: var(--gold-500);
+  background: var(--grad-horizon);
 }
 
 @media (hover: hover) {
@@ -82,7 +83,7 @@
   }
 }
 
-/* ---------- Quote mark: small champagne glyph, no gradient tile ---------- */
+/* ---------- Quote mark: small brick glyph, no gradient tile ---------- */
 .tst-card__quote {
   display: flex;
   flex-direction: column;
@@ -142,7 +143,7 @@
   text-align: left;
 }
 
-/* avatar keeps its gradient fill inside a thin champagne hairline ring */
+/* avatar keeps its gradient fill inside a thin brick hairline ring */
 .tst-card__avatar {
   flex-shrink: 0;
   display: grid;
@@ -204,9 +205,10 @@
 }
 
 .tst__arrow:hover {
-  background: var(--navy-900);
-  border-color: var(--navy-900);
-  color: var(--ivory);
+  background: var(--grad-brand);
+  border-color: transparent;
+  color: var(--white);
+  box-shadow: var(--sh-aqua);
 }
 
 .tst__arrow:active {
@@ -226,7 +228,7 @@
 }
 
 /* ---------- Dots (built by js/modules/testimonials.js) ----------
-   Thin hairline segments: inactive 16px, active champagne 30px.
+   Thin segments: inactive 16px, active 30px moss gradient.
    The 24x24 button box is the hit area; the line is a pseudo-element. */
 .tst__dots {
   grid-column: 1 / -1;
@@ -273,7 +275,9 @@
 
 .tst__dots button.is-active::before {
   width: 30px;
-  background: var(--gold-500);
+  height: 3px;
+  border-radius: var(--r-full);
+  background: var(--grad-brand);
 }
 
 /* ---------- Responsive ---------- */

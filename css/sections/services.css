@@ -47,13 +47,13 @@
 }
 
 .svc-card:hover {
-  translate: 0 -4px;
-  border-color: var(--gold-400);
-  box-shadow: var(--sh-sm);
+  translate: 0 -6px;
+  border-color: var(--aqua-400);
+  box-shadow: var(--sh-card-hover);
 }
 
 /* ---------------------------------------------------------
-   ICON - ivory disc, hairline, navy glyph
+   ICON - moss-washed disc, soft gradient, vivid glyph
    --------------------------------------------------------- */
 .svc-card__icon {
   display: grid;
@@ -61,11 +61,13 @@
   width: 58px;
   height: 58px;
   flex-shrink: 0;
-  border: 1px solid var(--gold-500);
+  border: 1px solid rgba(124, 138, 92, 0.4);
   border-radius: 50%;
-  background: var(--ivory);
-  color: var(--navy-800);
-  transition: border-color var(--dur) var(--ease);
+  background: linear-gradient(135deg, var(--aqua-50), var(--gold-50));
+  color: var(--aqua-700);
+  transition:
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
 }
 
 .svc-card__icon svg {
@@ -85,11 +87,12 @@
 }
 
 .svc-card:hover .svc-card__icon {
-  border-color: var(--gold-600);
+  border-color: var(--aqua-500);
+  transform: rotate(-6deg) scale(1.05);
 }
 
 /* ---------------------------------------------------------
-   COPY + LINK
+   COPY
    --------------------------------------------------------- */
 .svc-card h3 {
   font-family: var(--font-display);
@@ -104,37 +107,6 @@
   font-size: var(--fs-sm);
   line-height: 1.75;
   color: var(--slate-600);
-}
-
-.svc-card__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: auto;
-  padding-top: 0.85rem;
-  font-family: var(--font-ui);
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--gold-700);
-  transition: color var(--dur) var(--ease);
-}
-
-.svc-card__link svg {
-  width: 1.2em;
-  height: 1.2em;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform var(--dur) var(--ease);
-}
-
-.svc-card:hover .svc-card__link svg,
-.svc-card__link:hover svg {
-  transform: translateX(5px);
 }
 
 /* ---------------------------------------------------------

@@ -16,3 +16,7 @@ package-lock.json
 # Logs & temp
 *.log
 *.tmp
+
+# Local dev preview server (temporary, not part of the site)
+__serve_nocache.py
+__mobile-test.html

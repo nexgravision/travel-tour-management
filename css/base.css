@@ -21,6 +21,13 @@ html {
   overflow-x: clip;
 }
 
+/* Header is shorter once the topbar is dropped on phones */
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 84px;
+  }
+}
+
 body {
   font-family: var(--font-body);
   font-size: var(--fs-body);
@@ -98,13 +105,21 @@ p {
 /* Serif italic accents are the signature of the editorial look */
 em {
   font-style: italic;
-  color: var(--gold-500);
   font-weight: 500;
+  /* Brick-to-moss gradient reads on the dark hero; light surfaces
+     use the AA-safe dark gradient below. */
+  background: var(--grad-horizon);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Section titles sit on light surfaces - use the AA-safe gold there */
+/* Section titles sit on light surfaces - use the AA-safe dark gradient there */
 .section-title em {
-  color: var(--gold-700);
+  background: var(--grad-ink);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 strong {
@@ -113,7 +128,7 @@ strong {
 }
 
 ::selection {
-  background: var(--navy-700);
+  background: var(--aqua-500);
   color: var(--white);
 }
 
@@ -133,6 +148,21 @@ strong {
 .section--tint {
   background: var(--cloud);
   border-block: 1px solid var(--line);
+}
+
+/* Ambient brick-and-moss glow so tinted bands never read as flat grey */
+.section--tint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(680px 340px at 8% 0%, rgba(124, 138, 92, 0.09), transparent 68%),
+    radial-gradient(620px 320px at 96% 100%, rgba(176, 113, 79, 0.1), transparent 66%);
+}
+
+.section--tint > * {
+  position: relative;
 }
 
 .section-head {
@@ -158,29 +188,39 @@ strong {
 .section-tag {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.55rem;
   font-family: var(--font-ui);
   font-size: var(--fs-eyebrow);
   font-weight: 600;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold-700);
+  color: var(--aqua-700);
+  background: linear-gradient(120deg, rgba(124, 138, 92, 0.12), rgba(176, 113, 79, 0.14));
+  border: 1px solid rgba(124, 138, 92, 0.24);
+  padding: 0.42rem 0.95rem;
+  border-radius: var(--r-full);
   margin-bottom: var(--sp-4);
 }
 
 .section-tag::before {
   content: "";
-  width: 30px;
-  height: 1px;
-  background: var(--gold-500);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--grad-horizon);
+  box-shadow: 0 0 0 3px rgba(124, 138, 92, 0.16);
 }
 
 .section-tag--light {
-  color: var(--gold-400);
+  color: var(--gold-300);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(8px);
 }
 
 .section-tag--light::before {
   background: var(--gold-400);
+  box-shadow: 0 0 0 3px rgba(247, 188, 99, 0.24);
 }
 
 .section-cta {
@@ -255,7 +295,7 @@ html.js .reveal.is-visible {
 
 /* ---------- Utilities ---------- */
 .link-btn {
-  color: var(--gold-700);
+  color: var(--aqua-700);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -281,7 +321,34 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--gold-600);
+  outline: 2px solid var(--aqua-600);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* ---------- Scrollbar (fresh, brand-tinted) ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--aqua-400) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--aqua-400), var(--aqua-500));
+  border-radius: var(--r-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--aqua-500), var(--aqua-600));
+  background-clip: content-box;
 }
