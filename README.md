@@ -12,7 +12,29 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
 
 - **Static showcase** — no backend, database, booking or appointment flow; every
   section is plain HTML you can edit directly in `index.html`
-- **Full-screen hero** with cinematic backdrop and CTA buttons
+- **Full-screen hero** with cinematic backdrop and CTA buttons, driven by an
+  interactive destination carousel: the 8 destinations sit in a card rail
+  (right edge on desktop ≥1100px, bottom strip below that) and picking one —
+  by clicking its card, the prev/next arrows, or the ArrowLeft / ArrowRight
+  keys while focus is inside the rail — crossfades that photo into the hero
+  background while the country, title, location and description swap to
+  match. The active card is highlighted and carries `aria-pressed="true"`,
+  the `01 / 08` counter and rail scroll follow it, and navigation wraps
+  around at both ends
+- **Hero auto-rotation** — the carousel advances through all 8 destinations
+  every 6 seconds (the first advance lands 6s after page load), wraps from
+  the last destination back to the first and loops forever instead of
+  stopping on the last one, and only runs when there are 2 or more slides.
+  It pauses only while the tab is hidden, while keyboard-initiated focus is
+  inside the hero (`:focus-visible`), or while the hero is scrolled out of
+  view (via IntersectionObserver — browsers without it simply keep
+  rotating) — never when the pointer rests over the hero, and a tap on a
+  touch device never pauses it either. Any manual interaction — clicking a
+  destination card, the prev/next arrows, ArrowLeft / ArrowRight while
+  focus is in the rail, or a programmatic `NG.heroGoTo` — restarts the full
+  6-second countdown for the slide it selects. Automatic changes set the
+  hero copy's `aria-live` to `"off"` so nothing is announced every 6
+  seconds; manual changes set it to `"polite"` and are announced
 - **Destinations** — 8 cards with real pricing, ratings and details
 - **Tour packages** — domestic & international with tabbed filtering and wishlist toggles
 - **Popular tours**, **services** (flights, hotels, holidays, honeymoon, group, custom), **about** with animated counters
@@ -43,7 +65,7 @@ css/
   sections/*.css      one stylesheet per section
 js/
   main.js             shared helpers (NG namespace, anchors, toasts)
-  modules/*.js        nav, reveal, tabs, gallery,
+  modules/*.js        nav, hero, reveal, tabs, gallery,
                       testimonials, modal
 ```
 

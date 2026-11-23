@@ -18,6 +18,7 @@
   var PRELOAD_MS = 150; /* stagger between background preloads */
   var EDGE_PAD = 12; /* px of the next card kept inside the viewport */
   var WIDE_RE = /([?&])w=900(?=&|$)/; /* card thumbnail -> hero width */
+  var AUTOPLAY_MS = 6000; /* pause on each slide before auto-advancing */
 
   /* ---------- reduced motion: read once, never throws ---------- */
   var reduce = false;
@@ -54,6 +55,19 @@
   var locTextEl = null;
   var descEl = null;
   var copyTimer = null;
+
+  /* ---------- autoplay state ----------
+     One timer, three pause reasons (hidden, focus, outOfView).
+     syncAutoplay() is the only code that clears or arms autoTimer,
+     and autoGen invalidates a tick already queued by the event loop,
+     so a superseded callback can never orphan the freshly armed
+     handle. Rotation keeps running under prefers-reduced-motion (CSS
+     collapses the transition; JS only schedules timers - nothing new
+     animates). */
+  var autoTimer = null;
+  var autoGen = 0; /* invalidates queued ticks when the timer is re-armed */
+  var autoObserver = null;
+  var autoPaused = { hidden: false, focus: false, outOfView: false };
 
   /* Safe default so other modules can always call it, even if init bails. */
   NG.heroGoTo = function () {};
@@ -398,13 +412,97 @@
     }
   }
 
+  /* ---------- autoplay: one timer, three pause reasons ---------- */
+  function autoBlocked() {
+    return !!(
+      autoPaused.hidden ||
+      autoPaused.focus ||
+      autoPaused.outOfView
+    );
+  }
+
+  /* The only place that clears or arms autoTimer, and it bumps
+     autoGen first: a tick already queued from the previous arm belongs
+     to the old generation and becomes a no-op, so it can never null
+     the handle just armed here (that would leave two timers alive).
+     Clearing before arming means a manual interaction during a pending
+     tick can never leave two timers alive either; fewer than two
+     slides or any pause reason simply leaves the timer off (it is
+     re-armed by the next syncAutoplay() call, which every unpause
+     handler and every goTo() makes). */
+  function syncAutoplay() {
+    autoGen++; /* a queued tick from the previous arm must not run */
+    if (autoTimer !== null) {
+      window.clearTimeout(autoTimer);
+      autoTimer = null;
+    }
+    if (slides.length < 2 || autoBlocked()) return; /* timer off; next sync re-arms */
+    var gen = autoGen;
+    autoTimer = window.setTimeout(function () {
+      onAutoplayTick(gen);
+    }, AUTOPLAY_MS);
+  }
+
+  function onAutoplayTick(gen) {
+    /* Superseded: syncAutoplay() re-armed after this tick was queued,
+       so another timeout owns autoTimer - leave its handle alone. */
+    if (gen !== autoGen) return;
+
+    autoTimer = null; /* this timeout has fired - its handle is dead */
+
+    /* A pause reason may have become true while the callback was
+       queued (tab hidden, keyboard focus, hero scrolled away):
+       re-check and hand the decision back to syncAutoplay() instead
+       of advancing. */
+    if (autoBlocked()) {
+      syncAutoplay();
+      return;
+    }
+
+    /* Wrap-around (8 -> 1) lives only in goTo(); do not duplicate it.
+       goTo() ends in syncAutoplay() too, so the finally below re-arms
+       a second time in the same tick - harmless (sync always clears
+       before arming) and it keeps the chain alive even if goTo()
+       throws. */
+    try {
+      goTo(current + 1, true);
+    } finally {
+      syncAutoplay();
+    }
+  }
+
   /* ---------- navigation ---------- */
-  function goTo(i) {
+  /* fromAuto is true only for the autoplay tick; cards, #heroPrev,
+     #heroNext, arrow keys and NG.heroGoTo stay manual (undefined),
+     so they always reset the countdown and announce the change. */
+  function goTo(i, fromAuto) {
     var n = slides.length;
-    if (!n || typeof i !== "number" || !isFinite(i)) return;
+
+    /* Announce only user-initiated changes: an auto-advance must not
+       interrupt a screen reader every 6 seconds. Set BEFORE the
+       invalid-input guard so a bad NG.heroGoTo(...) call while
+       aria-live is "off" still restores "polite", and BEFORE
+       updateCopy() schedules its text swap; a manual call restores
+       "polite" even when it lands on the current slide. */
+    if (copyEl) {
+      try {
+        copyEl.setAttribute("aria-live", fromAuto ? "off" : "polite");
+      } catch (err) {
+        /* aria-live is best-effort */
+      }
+    }
+
+    if (!n || typeof i !== "number" || !isFinite(i)) {
+      syncAutoplay(); /* bad input: still leave the timer consistent */
+      return;
+    }
 
     var next = ((Math.floor(i) % n) + n) % n; /* wrap-around: the carousel is continuous */
-    if (next === current) return;
+
+    if (next === current) {
+      syncAutoplay(); /* re-picked the visible slide: full 6s again */
+      return;
+    }
 
     swapBackground(slides[next]);
     updateCopy(next);
@@ -413,6 +511,7 @@
     scrollToCard(next);
 
     current = next;
+    syncAutoplay(); /* the countdown restarts from this advance */
   }
 
   /* ---------- preload: crossfades must never stall ---------- */
@@ -480,6 +579,7 @@
     descEl = NG.$("#heroDescription");
     eyebrowEl = NG.$(".hero__eyebrow");
     heroMedia = NG.$(".hero__media");
+    var heroEl = NG.$(".hero");
 
     var prevBtn = NG.$("#heroPrev");
     var nextBtn = NG.$("#heroNext");
@@ -530,6 +630,89 @@
     railEl.classList.add("is-ready");
 
     NG.heroGoTo = goTo;
+
+    /* ---------- autoplay: pause / resume reasons (bound exactly once) ----------
+       Each handler updates autoPaused and calls syncAutoplay(), except
+       focusout to another element still INSIDE .hero, which changes
+       nothing and returns without re-syncing (focus never left the
+       hero, so the pause must stand). The timer itself never lives in
+       a listener, so nothing can leak. The degenerate cases above (no
+       rail, no slides) return before this point: no listeners, no
+       timer, static hero. */
+    try {
+      autoPaused.hidden = !!doc.hidden; /* opened in a background tab? */
+    } catch (errH) {
+      autoPaused.hidden = false;
+    }
+
+    doc.addEventListener("visibilitychange", function () {
+      /* Returning to a visible tab restarts the countdown via
+         syncAutoplay() instead of firing immediately. */
+      try {
+        autoPaused.hidden = !!doc.hidden;
+      } catch (errV) {
+        autoPaused.hidden = false;
+      }
+      syncAutoplay();
+    });
+
+    if (heroEl) {
+      /* Keyboard focus inside the hero pauses rotation, but only when
+         focus was keyboard-initiated (:focus-visible). A mouse or touch
+         click on a card must never latch a pause, so a focusin that is
+         NOT :focus-visible actively clears the reason. If :focus-visible
+         is unsupported or the check throws, fall back to never pausing
+         this way - rotation is the priority. */
+      heroEl.addEventListener("focusin", function (e) {
+        var kb = false;
+        try {
+          var target = e ? e.target : null;
+          kb = !!(
+            target &&
+            typeof target.matches === "function" &&
+            target.matches(":focus-visible")
+          );
+        } catch (errF) {
+          kb = false;
+        }
+        autoPaused.focus = kb;
+        syncAutoplay();
+      });
+
+      /* Moving focus between two cards fires focusout with relatedTarget
+         still inside .hero - that must NOT resume; only a focusout whose
+         target left the hero (or went nowhere) unpauses. */
+      heroEl.addEventListener("focusout", function (e) {
+        var nextEl = e ? e.relatedTarget : null;
+        if (nextEl && heroEl.contains && heroEl.contains(nextEl)) return;
+        autoPaused.focus = false;
+        syncAutoplay();
+      });
+
+      /* Hero scrolled away: rotation is pointless work, so no timer
+         at all. Without IntersectionObserver the reason stays false
+         and the carousel simply always runs. */
+      if (typeof window.IntersectionObserver === "function") {
+        try {
+          autoObserver = new window.IntersectionObserver(
+            function (entries) {
+              for (var k = 0; k < entries.length; k++) {
+                autoPaused.outOfView = !entries[k].isIntersecting;
+              }
+              syncAutoplay();
+            },
+            { threshold: 0 }
+          );
+          autoObserver.observe(heroEl);
+        } catch (errIo) {
+          autoPaused.outOfView = false;
+        }
+      }
+    }
+
+    /* First auto-advance lands 6s after load. syncAutoplay() refuses
+       to arm below two slides, so a single-slide rail stays static. */
+    syncAutoplay();
 
     schedulePreload();
   }
