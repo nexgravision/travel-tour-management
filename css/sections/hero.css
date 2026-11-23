@@ -40,9 +40,12 @@
 
 /* ---------------------------------------------------------
    MEDIA + OVERLAY
-   Slow, barely-there ken-burns; a deep navy vignette that is
-   darkest at the header and at the base, with no saturated
-   colour washes.
+   Two stacked .hero__bg layers crossfade (js/modules/hero.js
+   keeps the outgoing one .is-active at z-index 1 and animates
+   the incoming one .is-entering above it at z-index 2); the
+   outgoing layer keeps a slow, barely-there ken-burns. A deep
+   navy vignette sits above the media, darkest at the header
+   and at the base, with no saturated colour washes.
    --------------------------------------------------------- */
 .hero__media {
   position: absolute;
@@ -51,14 +54,30 @@
   overflow: hidden;
 }
 
-.hero__media img {
+.hero__bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 42%;
-  transform: scale(1);
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 900ms var(--ease);
+  will-change: opacity, transform;
+}
+
+.hero__bg.is-active {
+  opacity: 1;
+  z-index: 1;
   animation: heroKenBurns 40s linear infinite alternate;
-  will-change: transform;
+}
+
+/* Incoming layer rides above the fading-out one and settles into place */
+.hero__bg.is-entering {
+  opacity: 1;
+  z-index: 2;
+  animation: heroEnter 1400ms var(--ease) both;
 }
 
 @keyframes heroKenBurns {
@@ -67,6 +86,22 @@
   }
   to {
     transform: scale(1.06);
+  }
+}
+
+/* Crossfade over the old layer: opacity is fully open by ~60%
+   while the zoom-out keeps easing until the end. */
+@keyframes heroEnter {
+  0% {
+    opacity: 0;
+    transform: scale(1.07);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -110,6 +145,21 @@
   padding-bottom: clamp(1.6rem, 5vh, 3rem);
 }
 
+/* Text-swap wrapper: hero.js toggles .is-updating while it
+   rewrites the headline block for the next destination. */
+.hero__copy {
+  width: 100%;
+  max-width: 100%;
+  transition:
+    opacity 400ms var(--ease),
+    transform 400ms var(--ease);
+}
+
+.hero__copy.is-updating {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
 /* Micro-label: hairline + gold dot + uppercase Inter, no glass pill */
 .hero__eyebrow {
   display: inline-flex;
@@ -148,6 +198,17 @@
   animation: none;
 }
 
+/* hero.js hides the micro-label when a destination has no
+   separate country line (the inline-flex display would beat
+   the UA [hidden] rule otherwise). */
+.hero__eyebrow[hidden] {
+  display: none;
+}
+
+.hero__country {
+  min-width: 0;
+}
+
 /* Editorial display headline - light weight, airy, tight */
 .hero__title {
   font-family: var(--font-display);
@@ -159,13 +220,44 @@
   text-shadow: 0 2px 28px color-mix(in srgb, var(--navy-950) 45%, transparent);
 }
 
+/* Second line of the headline: its own block, clearly secondary
+   to the huge place name, keeping the platinum gradient. */
 .hero__title em {
+  display: block;
+  margin-top: 0.18em;
   background: var(--grad-platinum);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   text-shadow: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.4vw, 2.1rem);
   font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+/* Uppercase location line with the map pin (mirrors .dest-card__loc;
+   base.css gives svg no global fill, so the pin is filled here). */
+.hero__loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  color: var(--gold-300);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 18px color-mix(in srgb, var(--navy-950) 40%, transparent);
+}
+
+.hero__loc svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  fill: currentColor;
 }
 
 .hero__subtitle {
@@ -200,8 +292,280 @@
 }
 
 /* ---------------------------------------------------------
+   DESTINATION RAIL - horizontal card carousel (#heroRail)
+   Built by js/modules/hero.js and hidden until it adds
+   .is-ready. Desktop parks it on the right edge of the hero;
+   below 1100px it becomes a horizontal strip under the copy.
+   --------------------------------------------------------- */
+.hero__rail {
+  display: none;
+}
+
+.hero__rail.is-ready {
+  display: block;
+}
+
+/* Native horizontal scroller - JS only calls scrollTo(). The vertical
+   padding + matching negative margins keep the card hover/active scale
+   and most of the soft card shadow from being clipped by the overflow
+   box (the largest shadow still fades out slightly inside it). */
+.hero__rail-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  padding: 20px 0;
+  margin: -20px 0;
+}
+
+.hero__rail-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.hero__rail-viewport:focus-visible {
+  outline: 2px solid var(--aqua-400);
+  outline-offset: 4px;
+  border-radius: var(--r-md);
+}
+
+.hero__rail-track {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(10px, 1vw, 16px);
+  min-width: max-content;
+}
+
+/* --- Destination card ------------------------------------ */
+.hero__rcard {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(120px, 11vw, 168px);
+  aspect-ratio: 3 / 4;
+  padding: 0;
+  margin: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  cursor: pointer;
+  appearance: none;
+  background: var(--navy-800);
+  border: 1px solid color-mix(in srgb, var(--white) 24%, transparent);
+  color: var(--white);
+  opacity: 0.74;
+  transform: scale(0.96);
+  filter: saturate(0.85);
+  scroll-snap-align: start;
+  font: inherit;
+  text-align: left;
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease),
+    border-color 0.45s var(--ease),
+    box-shadow 0.45s var(--ease),
+    filter 0.45s var(--ease);
+}
+
+.hero__rcard:hover {
+  opacity: 0.95;
+  transform: scale(0.985);
+}
+
+/* Steel ring - base.css's aqua-600 focus colour is too deep to
+   read against the dark hero photo. The radius is re-stated because
+   base.css's `button:focus-visible` rule snaps it to 4px. */
+.hero__rcard:focus-visible {
+  outline: 2px solid var(--aqua-400);
+  outline-offset: 3px;
+  border-radius: var(--r-md);
+}
+
+/* Clearly highlighted, never loud: full opacity, platinum hairline
+   and a soft lift instead of a colour flash. */
+.hero__rcard.is-active {
+  opacity: 1;
+  transform: scale(1);
+  filter: none;
+  border-color: color-mix(in srgb, var(--gold-400) 75%, transparent);
+  box-shadow:
+    var(--sh-card-hover),
+    0 0 0 1px color-mix(in srgb, var(--gold-400) 45%, transparent);
+}
+
+.hero__rcard-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Bottom gradient keeps the label legible over any photo */
+.hero__rcard-scrim {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--navy-950) 88%, transparent)
+  );
+}
+
+.hero__rcard-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px 12px 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.hero__rcard-country {
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--white) 72%, transparent);
+}
+
+.hero__rcard-name {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  text-shadow: 0 1px 10px color-mix(in srgb, var(--navy-950) 55%, transparent);
+}
+
+/* --- Nav: glass arrows left, slide index right ----------- */
+.hero__rail-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-top: 18px;
+}
+
+/* Groups the two arrows at the start: space-between would otherwise
+   centre the second one and strand the index in the middle. */
+.hero__rail-nav .hero__rail-btn + .hero__rail-btn {
+  margin-right: auto;
+}
+
+.hero__rail-btn {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-full);
+  padding: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--white) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--white) 42%, transparent);
+  color: var(--white);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition:
+    background 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+
+.hero__rail-btn:hover {
+  background: color-mix(in srgb, var(--white) 24%, transparent);
+  border-color: color-mix(in srgb, var(--white) 70%, transparent);
+  transform: translateY(-2px);
+}
+
+.hero__rail-btn:active {
+  transform: translateY(0);
+}
+
+.hero__rail-btn:focus-visible {
+  outline: 2px solid var(--aqua-400);
+  outline-offset: 3px;
+}
+
+/* Open arrow paths - stroked like .btn__icon (base.css sets no
+   global svg fill/stroke, and a fill would seal these shapes). */
+.hero__rail-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero__rail-index {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--white) 70%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------
+   RAIL - DESKTOP PLACEMENT (>= 1100px)
+   Pinned to the right edge inside .hero's stacking context:
+   .hero__overlay z1 < .hero__inner z2 < .hero__rail z3.
+   The copy is clamped at the same breakpoint, and the rail keeps a
+   left gutter: between 1100px and ~1150px (where --gutter is already
+   capped and a classic scrollbar inflates vw while right:0 tracks the
+   narrower layout box) the two boxes would otherwise meet, so the
+   gutter guarantees clear air over the subtitle lines.
+   --------------------------------------------------------- */
+@media (min-width: 1100px) {
+  .hero__rail.is-ready {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: min(44vw, 620px);
+    padding-left: clamp(12px, 2vw, 32px);
+    padding-right: clamp(24px, 4vw, 72px);
+  }
+
+  .hero__copy {
+    width: min(52vw, 600px);
+  }
+}
+
+/* ---------------------------------------------------------
    RESPONSIVE
    --------------------------------------------------------- */
+
+@media (max-width: 1099px) {
+  /* The rail leaves the right edge and flows after .hero__inner in
+     the hero's flex column - it can never overlap the copy here.
+     Not `position: static`: a non-positioned rail would paint UNDER
+     the full-bleed .hero__overlay scrim (z-index 1), so it stays
+     relative and keeps the desktop z-index: 3. */
+  .hero__rail.is-ready {
+    position: relative;
+    z-index: 3;
+    transform: none;
+    width: 100%;
+    padding: 0 clamp(20px, 5vw, 40px) clamp(20px, 4vh, 36px);
+  }
+
+  .hero__rcard {
+    width: clamp(108px, 20vw, 150px);
+  }
+
+  /* Reclaim the room the rail's own bottom padding now provides */
+  .hero__inner {
+    padding-bottom: clamp(0.75rem, 2.5vh, 1.5rem);
+  }
+}
 
 @media (max-width: 900px) {
   .hero {
@@ -230,6 +594,29 @@
     /* The topbar is hidden on phones, so the hero clears only the navbar */
     --hero-pad-top: 104px;
   }
+
+  .hero__rcard {
+    width: clamp(98px, 30vw, 130px);
+  }
+
+  .hero__rail-track {
+    gap: clamp(8px, 2.4vw, 12px);
+  }
+
+  .hero__rail-nav {
+    gap: 10px;
+    padding-top: 14px;
+  }
+
+  .hero__rail-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero__rail-btn svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -239,6 +626,21 @@
 
   .hero__actions .btn {
     flex: 1 1 100%;
+  }
+
+  .hero__rail-viewport {
+    padding: 12px 0;
+    margin: -12px 0;
+  }
+
+  .hero__rail-nav {
+    gap: 8px;
+    padding-top: 12px;
+  }
+
+  .hero__rail-index {
+    font-size: 0.76rem;
+    letter-spacing: 0.14em;
   }
 }
 
@@ -261,8 +663,41 @@
    REDUCED MOTION
    --------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .hero__media img {
+  /* No ken-burns, no enter zoom - just a short crossfade.
+     (!important: base.css forces every transition to 0.001ms.
+     Same-specificity re-declaration: .hero__bg.is-active at (0,2,0)
+     would otherwise beat this single-class rule and keep the
+     ken-burns alive under reduced motion.) */
+  .hero__bg,
+  .hero__bg.is-active {
     animation: none;
+    transform: none;
+    transition: opacity 150ms var(--ease) !important;
+  }
+
+  .hero__bg.is-entering {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* Copy swap drops the lift, keeps a quick fade */
+  .hero__copy,
+  .hero__copy.is-updating {
+    transform: none;
+    transition: opacity 200ms linear !important;
+  }
+
+  .hero__rail-viewport {
+    scroll-behavior: auto;
+  }
+
+  .hero__rail-btn:hover {
+    transform: none;
+  }
+
+  .hero__rcard,
+  .hero__rcard:hover,
+  .hero__rcard.is-active {
     transform: none;
   }
 

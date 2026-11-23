@@ -123,23 +123,24 @@
     <!-- ============================= HERO ============================= -->
     <section class="hero" id="home">
       <div class="hero__media" aria-hidden="true">
-        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80" alt="" fetchpriority="high">
+        <img class="hero__bg is-active" src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=2000&q=80" alt="" fetchpriority="high">
       </div>
       <div class="hero__overlay" aria-hidden="true"></div>
 
       <div class="container hero__inner">
-        <p class="hero__eyebrow reveal" data-reveal="up">
-          <span class="hero__eyebrow-dot"></span>
-          Trusted by 50,000+ travellers since 2009
-        </p>
-        <h1 class="hero__title reveal" data-reveal="up" data-delay="80">
-          Discover the World in<br><em>Unforgettable</em> Style
-        </h1>
-        <p class="hero__subtitle reveal" data-reveal="up" data-delay="160">
-          Handcrafted holidays, luxury stays and seamless flights - designed by
-          destination experts who have walked the streets, sailed the bays and
-          slept in the suites they recommend.
-        </p>
+        <div class="hero__copy" id="heroCopy" aria-live="polite">
+          <p class="hero__eyebrow reveal" data-reveal="up">
+            <span class="hero__eyebrow-dot"></span>
+            <span class="hero__country" id="heroCountry">Greece</span>
+          </p>
+          <h1 class="hero__title reveal" data-reveal="up" data-delay="80" id="heroTitle">Santorini<em>Aegean Sunsets</em></h1>
+          <p class="hero__loc reveal" data-reveal="up" data-delay="120" id="heroLocation">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+            <span id="heroLocationText">Santorini, Greece</span>
+          </p>
+          <p class="hero__subtitle reveal" data-reveal="up" data-delay="160" id="heroDescription">Whitewashed cliff villages, caldera sunsets in Oia and slow days on black-sand beaches.</p>
+        </div>
+
         <div class="hero__actions reveal" data-reveal="up" data-delay="240">
           <a class="btn btn--gold btn--lg" href="#destinations">
             Explore Destinations
@@ -151,6 +152,21 @@
             </span>
             Why travel with us
           </a>
+        </div>
+      </div>
+
+      <div class="hero__rail" id="heroRail">
+        <div class="hero__rail-viewport" id="heroRailViewport" role="group" aria-label="Featured destinations" tabindex="0">
+          <div class="hero__rail-track" id="heroRailTrack"></div>
+        </div>
+        <div class="hero__rail-nav">
+          <button class="hero__rail-btn" type="button" id="heroPrev" aria-label="Previous destination">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6m5.5-5.5L6 12l5.5 5.5"/></svg>
+          </button>
+          <button class="hero__rail-btn" type="button" id="heroNext" aria-label="Next destination">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"/></svg>
+          </button>
+          <span class="hero__rail-index" id="heroRailIndex" aria-hidden="true">01 / 08</span>
         </div>
       </div>
     </section>
@@ -1122,6 +1138,7 @@
   <!-- Scripts -->
   <script src="js/main.js"></script>
   <script src="js/modules/nav.js"></script>
+  <script src="js/modules/hero.js"></script>
   <script src="js/modules/reveal.js"></script>
   <script src="js/modules/tabs.js"></script>
   <script src="js/modules/gallery.js"></script>
