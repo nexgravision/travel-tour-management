@@ -3,10 +3,10 @@
 A premium, editorial-luxury travel agency website frontend — handcrafted with
 vanilla HTML, CSS and JavaScript. No frameworks, no build step, no dependencies.
 
-**Design direction:** earth tones - warm cream surfaces, espresso darks, Playfair
-Display serif headlines with Inter for UI, muted brick clay for warm emphasis
-(prices, CTAs) and mossy olive green for the organic accent (links, focus, tags).
-A harmonised, boutique palette.
+**Design direction:** premium navy + ivory + platinum (gold-free) - warm ivory
+surfaces, deep navy ink and darks, Playfair Display serif headlines with Inter
+for UI, steel-blue for the interactive accent (links, focus, tags) and platinum
+grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
 
 ## Features
 

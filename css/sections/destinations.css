@@ -1,8 +1,8 @@
 /* =========================================================
    DESTINATIONS - card grid, card anatomy, empty state
    EDITORIAL LUXURY + RESTRAINED CHAMPAGNE
-   White cards, warm hairlines, serif titles, brick clay for
-   micro-labels and moss green for interactive accents.
+   White cards, warm hairlines, serif titles, platinum for
+   micro-labels and navy for interactive accents.
    ========================================================= */
 
 /* ---------------------------------------------------------
@@ -117,9 +117,9 @@ html.js .dest-card {
 }
 
 .dest-card__badge--gold {
-  background: var(--grad-sun);
+  background: var(--grad-cta);
   border-color: transparent;
-  color: var(--navy-950);
+  color: var(--white);
 }
 
 /* Price - frosted white chip with serif numeral */

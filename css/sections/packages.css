@@ -6,7 +6,7 @@
    ========================================================= */
 
 /* ---------------------------------------------------------
-   CATEGORY TABS - frosted segmented control, moss active pill
+   CATEGORY TABS - frosted segmented control, navy active pill
    --------------------------------------------------------- */
 .pkg-tabs {
   display: flex;
@@ -307,7 +307,7 @@ html.js .pkg-card {
 }
 
 /* Included - one calm row of uppercase micro-labels,
-   separated by brick hairline dots */
+   separated by platinum hairline dots */
 .pkg-card__incl {
   display: flex;
   flex-wrap: wrap;

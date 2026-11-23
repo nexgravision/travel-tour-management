@@ -1,6 +1,6 @@
 /* =========================================================
-   FOOTER - deep quiet espresso, editorial 4-column grid
-   Hairline column rules, brick micro-labels, glass inputs
+   FOOTER - deep quiet navy, editorial 4-column grid
+   Hairline column rules, platinum micro-labels, glass inputs
    ========================================================= */
 
 .footer {
@@ -10,24 +10,24 @@
   padding-block: clamp(3.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.2rem);
 }
 
-/* Brick-and-moss hairline along the top edge */
+/* Platinum hairline along the top edge */
 .footer::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
   height: 3px;
-  background: var(--grad-horizon);
+  background: var(--grad-platinum);
   z-index: 2;
 }
 
-/* Two soft glows - moss and brick, quiet, not a colour wash */
+/* Two soft glows - steel and platinum, quiet, not a colour wash */
 .footer::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(720px 400px at 88% 0%, rgba(124, 138, 92, 0.18), transparent 70%),
-    radial-gradient(620px 360px at 4% 100%, rgba(176, 113, 79, 0.12), transparent 70%);
+    radial-gradient(720px 400px at 88% 0%, rgba(111, 147, 184, 0.18), transparent 70%),
+    radial-gradient(620px 360px at 4% 100%, rgba(169, 187, 205, 0.12), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -73,7 +73,7 @@
   gap: 0.6rem;
 }
 
-/* Soft discs with a hairline - brick fill on hover */
+/* Soft discs with a hairline - platinum fill on hover */
 .footer__socials a {
   display: grid;
   place-items: center;
@@ -102,7 +102,7 @@
 }
 
 /* ---------- Columns ----------
-   Small uppercase Inter labels in brick with a gradient rule */
+   Small uppercase Inter labels in platinum with a gradient rule */
 .footer__col h4 {
   position: relative;
   font-family: var(--font-ui);
@@ -123,7 +123,7 @@
   width: 30px;
   height: 3px;
   border-radius: var(--r-full);
-  background: var(--grad-horizon);
+  background: var(--grad-platinum);
 }
 
 .footer__col ul {

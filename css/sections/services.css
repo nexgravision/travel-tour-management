@@ -53,7 +53,7 @@
 }
 
 /* ---------------------------------------------------------
-   ICON - moss-washed disc, soft gradient, vivid glyph
+   ICON - steel-washed disc, soft gradient, vivid glyph
    --------------------------------------------------------- */
 .svc-card__icon {
   display: grid;
@@ -61,7 +61,7 @@
   width: 58px;
   height: 58px;
   flex-shrink: 0;
-  border: 1px solid rgba(124, 138, 92, 0.4);
+  border: 1px solid rgba(26, 76, 127, 0.4);
   border-radius: 50%;
   background: linear-gradient(135deg, var(--aqua-50), var(--gold-50));
   color: var(--aqua-700);

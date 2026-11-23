@@ -1,6 +1,6 @@
 /* =========================================================
    ABOUT - editorial media collage + studio story
-   Brick hairlines, crisp surfaces, serif numerals.
+   Platinum hairlines, crisp surfaces, serif numerals.
    ========================================================= */
 
 .about {
@@ -18,7 +18,7 @@
   min-width: 0;
 }
 
-/* One 1px brick hairline frame, offset 14px behind the collage */
+/* One 1px platinum hairline frame, offset 14px behind the collage */
 .about__media::before {
   content: "";
   position: absolute;
@@ -65,7 +65,7 @@
   background: var(--white);
 }
 
-/* "15+ years" chip - frosted white, brick hairline, serif numeral */
+/* "15+ years" chip - frosted white, platinum hairline, serif numeral */
 .about__badge {
   position: absolute;
   left: -18px;
@@ -75,7 +75,7 @@
   flex-direction: column;
   gap: 0.3rem;
   padding: 0.85rem 1.15rem 0.9rem;
-  border: 1px solid rgba(176, 113, 79, 0.55);
+  border: 1px solid rgba(139, 160, 182, 0.55);
   border-radius: var(--r-md);
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(8px);
@@ -175,7 +175,7 @@
   border-top: 1px solid var(--line);
 }
 
-/* Small moss disc, soft gradient, moss check */
+/* Small navy disc, soft gradient, steel check */
 .about__check {
   flex-shrink: 0;
   display: grid;
@@ -183,7 +183,7 @@
   width: 26px;
   height: 26px;
   margin-top: -1px;
-  border: 1px solid rgba(124, 138, 92, 0.45);
+  border: 1px solid rgba(26, 76, 127, 0.45);
   border-radius: 50%;
   background: linear-gradient(135deg, var(--aqua-50), var(--gold-50));
 }

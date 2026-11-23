@@ -1,74 +1,74 @@
 /* =========================================================
    DESIGN TOKENS - NexGravision Tours & Travel
-   Direction: EARTH TONES - BRICK + MOSS (harmonised duo)
-   Warm cream surfaces, espresso darks, muted brick clay for
-   warm emphasis (prices, stars, primary CTAs) and mossy
-   olive green for the organic accent (links, focus, tags).
-   Both accents are desaturated and share the same warmth, so
-   they blend instead of clashing. Boutique, natural, calm.
+   Direction: PREMIUM NAVY + IVORY + PLATINUM (gold-free)
+   Warm ivory surfaces, deep navy ink and darks, steel-blue
+   for the interactive accent (links, focus, tags, hovers) and
+   platinum grey for the metallic accent (hairlines, stars,
+   micro-labels). Classic first-class travel luxury.
    Single source of truth: colour, type, spacing, motion.
 
    NOTE: token names are role-based and kept for stability -
-     --navy-* = espresso (dark surfaces)
-     --aqua-* = moss green (organic accent)
-     --gold-* = brick clay (warm accent)
+     --navy-* = deep navy (dark surfaces)
+     --aqua-* = steel blue (interactive accent)
+     --gold-* = platinum grey (metallic accent)
    ========================================================= */
 
 :root {
-  /* ---- Espresso (dark surfaces) ---- */
-  --navy-950: #201a15;
-  --navy-900: #2a221b;
-  --navy-800: #382d24;
-  --navy-700: #4b3d31;
-  --navy-600: #5f4e40;
+  /* ---- Deep navy (dark surfaces + ink) ---- */
+  --navy-950: #050f1e;
+  --navy-900: #08182e;
+  --navy-800: #0c2340;
+  --navy-700: #123055;
+  --navy-600: #1a3f6e;
 
-  /* ---- Moss green (organic accent) ---- */
-  --aqua-700: #55623a; /* AA-safe moss text on cream */
-  --aqua-600: #66734a;
-  --aqua-500: #7c8a5c; /* signature moss */
-  --aqua-400: #9aa87a;
-  --aqua-300: #c2cba9;
-  --aqua-50: #f0f2e7;
+  /* ---- Steel blue (interactive accent) ---- */
+  --aqua-700: #123055; /* AA-safe navy text on ivory */
+  --aqua-600: #1a4c7f;
+  --aqua-500: #2a6099;
+  --aqua-400: #6f93b8;
+  --aqua-300: #a9c1d8;
+  --aqua-50: #eef3f8;
 
-  /* ---- Stone / warm taupe (decorative only, never small text) ---- */
-  --sky-600: #7a7061;
-  --sky-500: #948877;
-  --sky-400: #ab9e8b;
-  --sky-300: #c9bfae;
-  --sky-50: #f2eee7;
+  /* ---- Cool stone (decorative only, never small text) ---- */
+  --sky-600: #5f6b78;
+  --sky-500: #7d8896;
+  --sky-400: #9aa4b2;
+  --sky-300: #bcc5d0;
+  --sky-50: #f1f4f8;
 
-  /* ---- Brick clay (warm accent: prices, stars, CTAs) ---- */
-  --gold-700: #8c4a33; /* AA-safe brick text on cream */
-  --gold-600: #a05a41;
-  --gold-500: #b0714f; /* signature brick */
-  --gold-400: #c99272;
-  --gold-300: #e0b9a3;
-  --gold-50: #f8efe9;
+  /* ---- Platinum (metallic accent: hairlines, stars, labels) ---- */
+  --gold-700: #46617e; /* AA-safe steel text on ivory */
+  --gold-600: #5b7794;
+  --gold-500: #8ba0b6; /* signature platinum */
+  --gold-400: #a9bbcd;
+  --gold-300: #c8d4e0;
+  --gold-50: #f0f4f8;
 
-  /* ---- Warm creams ---- */
+  /* ---- Warm ivory neutrals ---- */
   --white: #ffffff;
-  --ivory: #faf7f1; /* page background */
-  --cloud: #f2ede4; /* tinted section */
-  --mist: #ebe4d8;
-  --line: #e7dfd2; /* warm hairline */
-  --line-strong: #d6cbb9;
-  --slate-600: #554f47; /* body copy */
-  --slate-500: #6f685f; /* muted labels */
-  --ink: #241f1a; /* headings */
-  --ink-soft: #433d35;
+  --ivory: #fbfaf7; /* page background */
+  --cloud: #f4f2ee; /* tinted section */
+  --mist: #ecebe6;
+  --line: #e6e4dd; /* hairline */
+  --line-strong: #d4d1c9;
+  --slate-600: #4b515a; /* body copy */
+  --slate-500: #6c727b; /* muted labels */
+  --ink: #0a1a2f; /* headings - deep navy ink */
+  --ink-soft: #26364a;
 
   /* ---- Semantic ---- */
-  --success: #5c6b3e;
-  --success-soft: #f0f3e6;
-  --danger: #a8503c;
-  --danger-soft: #f9ece7;
-  --star: #b0714f;
+  --success: #1f7a56;
+  --success-soft: #e9f4ef;
+  --danger: #b4433f;
+  --danger-soft: #fbeeec;
+  --star: #4f6a86;
 
   /* ---- Gradients ---- */
-  --grad-brand: linear-gradient(120deg, #4a5630 0%, #55623a 45%, #66734a 100%);
-  --grad-sun: linear-gradient(135deg, #e3b194 0%, #d1997a 48%, #c18664 100%);
-  --grad-horizon: linear-gradient(120deg, #d1997a 0%, #b0714f 38%, #7c8a5c 100%);
-  --grad-ink: linear-gradient(100deg, #8c4a33 0%, #96543a 42%, #55623a 100%);
+  --grad-brand: linear-gradient(120deg, #123055 0%, #1a4c7f 50%, #2a6099 100%);
+  --grad-cta: linear-gradient(135deg, #1a4c7f 0%, #123055 55%, #0c2340 100%);
+  --grad-platinum: linear-gradient(120deg, #dfe6ee 0%, #a9bbcd 45%, #6f93b8 100%);
+  --grad-navy: linear-gradient(120deg, #0c2340 0%, #1a4c7f 50%, #4f6a86 100%);
+  --grad-ink: linear-gradient(100deg, #0c2340 0%, #1a4c7f 45%, #4f6a86 100%);
 
   /* ---- Typography ---- */
   --font-display: "Playfair Display", "Times New Roman", Georgia, serif;
@@ -111,15 +111,15 @@
   --r-xl: 32px;
   --r-full: 999px;
 
-  /* ---- Shadows (warm-tinted, layered depth) ---- */
-  --sh-xs: 0 1px 2px rgba(43, 34, 27, 0.05);
-  --sh-sm: 0 4px 14px rgba(43, 34, 27, 0.07);
-  --sh-md: 0 12px 32px rgba(43, 34, 27, 0.1);
-  --sh-lg: 0 24px 60px rgba(43, 34, 27, 0.14);
-  --sh-gold: 0 10px 26px rgba(176, 113, 79, 0.32);
-  --sh-aqua: 0 10px 28px rgba(124, 138, 92, 0.3);
-  --sh-navy: 0 10px 26px rgba(32, 26, 21, 0.24);
-  --sh-card-hover: 0 20px 46px rgba(43, 34, 27, 0.13);
+  /* ---- Shadows (navy-tinted, layered depth) ---- */
+  --sh-xs: 0 1px 2px rgba(10, 26, 47, 0.05);
+  --sh-sm: 0 4px 14px rgba(10, 26, 47, 0.07);
+  --sh-md: 0 12px 32px rgba(10, 26, 47, 0.1);
+  --sh-lg: 0 24px 60px rgba(10, 26, 47, 0.14);
+  --sh-gold: 0 10px 26px rgba(18, 48, 85, 0.32);
+  --sh-aqua: 0 10px 28px rgba(42, 96, 153, 0.3);
+  --sh-navy: 0 10px 26px rgba(5, 15, 30, 0.24);
+  --sh-card-hover: 0 20px 46px rgba(10, 26, 47, 0.13);
 
   /* ---- Motion ---- */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);

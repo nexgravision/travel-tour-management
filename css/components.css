@@ -59,7 +59,7 @@
   transform: translateX(4px);
 }
 
-/* Variants - brick gradients, layered colour, soft glow */
+/* Variants - navy gradients, layered colour, soft glow */
 .btn--navy {
   --btn-bg: linear-gradient(135deg, var(--navy-800), var(--navy-950));
   box-shadow: var(--sh-sm);
@@ -71,18 +71,18 @@
 }
 
 .btn--gold {
-  --btn-bg: var(--grad-sun);
-  --btn-fg: var(--navy-950);
+  --btn-bg: var(--grad-cta);
+  --btn-fg: var(--white);
   box-shadow: var(--sh-gold);
   overflow: hidden;
 }
 
 .btn--gold:hover {
-  --btn-bg: linear-gradient(135deg, #ecd0bd, #dcae92 48%, #cb9878 100%);
-  box-shadow: 0 14px 34px rgba(176, 113, 79, 0.42);
+  --btn-bg: linear-gradient(135deg, #1f578c 0%, #17457a 48%, #123055 100%);
+  box-shadow: 0 14px 34px rgba(12, 35, 64, 0.45);
 }
 
-/* Light sweep across the brick button on hover */
+/* Light sweep across the navy button on hover */
 .btn--gold::after {
   content: "";
   position: absolute;
@@ -262,7 +262,7 @@
 .field textarea:focus {
   outline: none;
   border-color: var(--aqua-500);
-  box-shadow: 0 0 0 4px rgba(124, 138, 92, 0.18);
+  box-shadow: 0 0 0 4px rgba(26, 76, 127, 0.18);
 }
 
 .field select {
@@ -319,7 +319,7 @@
 }
 
 .topbar {
-  background: linear-gradient(90deg, var(--navy-950), #332a22 60%, var(--navy-900));
+  background: linear-gradient(90deg, var(--navy-950), #0a1e38 60%, var(--navy-900));
   color: rgba(255, 255, 255, 0.78);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
@@ -378,7 +378,8 @@ a.topbar__item:hover {
 }
 
 .topbar__socials a:hover {
-  background: var(--gold-500);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--navy-900);
   transform: translateY(-2px);
 }
 
@@ -402,13 +403,13 @@ a.topbar__item:hover {
     background var(--dur) var(--ease);
 }
 
-/* Gradient brick-and-moss hairline under the glass bar */
+/* Gradient navy hairline under the glass bar */
 .navbar::after {
   content: "";
   position: absolute;
   inset: auto 0 -1px;
   height: 2px;
-  background: var(--grad-horizon);
+  background: var(--grad-navy);
   opacity: 0;
   transition: opacity var(--dur) var(--ease);
   pointer-events: none;
@@ -492,7 +493,7 @@ a.topbar__item:hover {
   gap: clamp(0.4rem, 1.4vw, 1.15rem);
 }
 
-/* Nav links - soft moss pill on hover (playful, touch-friendly) */
+/* Nav links - soft steel pill on hover (playful, touch-friendly) */
 .nav-link {
   position: relative;
   padding: 0.55rem 0.75rem;
@@ -514,7 +515,7 @@ a.topbar__item:hover {
 }
 
 .nav-link.is-active {
-  background: linear-gradient(120deg, rgba(124, 138, 92, 0.14), rgba(176, 113, 79, 0.18));
+  background: linear-gradient(120deg, rgba(26, 76, 127, 0.14), rgba(139, 160, 182, 0.22));
   color: var(--navy-800);
   font-weight: 600;
 }
@@ -528,7 +529,7 @@ a.topbar__item:hover {
   display: none;
 }
 
-/* Hamburger - moss tile */
+/* Hamburger - navy tile */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -548,7 +549,7 @@ a.topbar__item:hover {
 
 .nav-toggle:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 32px rgba(124, 138, 92, 0.36);
+  box-shadow: 0 12px 32px rgba(18, 48, 85, 0.4);
 }
 
 .nav-toggle span {
@@ -577,7 +578,7 @@ a.topbar__item:hover {
    STATS BAND
    --------------------------------------------------------- */
 .stats {
-  background: linear-gradient(115deg, var(--navy-950) 0%, #33291f 55%, var(--navy-700) 100%);
+  background: linear-gradient(115deg, var(--navy-950) 0%, #0e2a4d 55%, var(--navy-700) 100%);
   padding-block: clamp(2.4rem, 5vw, 3.4rem);
   position: relative;
   overflow: hidden;
@@ -589,8 +590,8 @@ a.topbar__item:hover {
   inset: -60% -10% auto;
   height: 220%;
   background:
-    radial-gradient(620px 240px at 15% 30%, rgba(124, 138, 92, 0.22), transparent 70%),
-    radial-gradient(520px 220px at 85% 70%, rgba(176, 113, 79, 0.16), transparent 70%);
+    radial-gradient(620px 240px at 15% 30%, rgba(111, 147, 184, 0.26), transparent 70%),
+    radial-gradient(520px 220px at 85% 70%, rgba(169, 187, 205, 0.18), transparent 70%);
   pointer-events: none;
 }
 
@@ -628,7 +629,7 @@ a.topbar__item:hover {
 }
 
 .stat__value .counter {
-  background: var(--grad-horizon);
+  background: var(--grad-platinum);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -730,8 +731,8 @@ a.topbar__item:hover {
 }
 
 .to-top:hover {
-  background: var(--grad-sun);
-  color: var(--navy-950);
+  background: var(--grad-cta);
+  color: var(--white);
   transform: translateY(-4px);
 }
 
@@ -751,7 +752,7 @@ a.topbar__item:hover {
   display: grid;
   place-items: center;
   padding: clamp(1rem, 4vw, 3rem);
-  background: rgba(24, 19, 15, 0.94);
+  background: rgba(5, 15, 30, 0.94);
   backdrop-filter: blur(6px);
   opacity: 0;
   transition: opacity var(--dur) var(--ease);
@@ -854,7 +855,7 @@ a.topbar__item:hover {
 .modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(24, 19, 15, 0.72);
+  background: rgba(5, 15, 30, 0.72);
   backdrop-filter: blur(4px);
   opacity: 0;
   transition: opacity var(--dur) var(--ease);
@@ -947,10 +948,10 @@ a.topbar__item:hover {
       calc(2rem + env(safe-area-inset-bottom, 0px))
       1.5rem;
     background:
-      radial-gradient(520px 340px at 130% -10%, rgba(124, 138, 92, 0.4), transparent 62%),
-      radial-gradient(460px 320px at -25% 112%, rgba(176, 113, 79, 0.24), transparent 62%),
+      radial-gradient(520px 340px at 130% -10%, rgba(111, 147, 184, 0.36), transparent 62%),
+      radial-gradient(460px 320px at -25% 112%, rgba(169, 187, 205, 0.26), transparent 62%),
       linear-gradient(200deg, var(--navy-900), var(--navy-950));
-    box-shadow: -30px 0 60px rgba(24, 19, 15, 0.45);
+    box-shadow: -30px 0 60px rgba(5, 15, 30, 0.45);
     transform: translateX(105%);
     transition: transform var(--dur) var(--ease-out);
     overflow-y: auto;
@@ -981,7 +982,7 @@ a.topbar__item:hover {
   .nav-link.is-active {
     color: var(--white);
     font-weight: 600;
-    background: linear-gradient(120deg, rgba(124, 138, 92, 0.4), rgba(176, 113, 79, 0.3));
+    background: linear-gradient(120deg, rgba(169, 187, 205, 0.3), rgba(111, 147, 184, 0.42));
     transform: translateX(4px);
   }
 

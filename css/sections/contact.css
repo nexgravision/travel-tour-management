@@ -1,6 +1,6 @@
 /* =========================================================
    CONTACT - centred intro above three editorial contact columns
-   Crisp surfaces, warm hairline rules, moss accents
+   Crisp surfaces, warm hairline rules, navy accents
    ========================================================= */
 
 /* ---------- Intro ----------
@@ -32,7 +32,7 @@
   place-items: center;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--aqua-50), var(--gold-50));
-  border: 1px solid rgba(124, 138, 92, 0.42);
+  border: 1px solid rgba(26, 76, 127, 0.42);
   transition:
     background-color var(--dur-fast) var(--ease),
     border-color var(--dur-fast) var(--ease),
@@ -55,7 +55,7 @@
   min-width: 0;
 }
 
-/* Labels - small uppercase Inter, letterspaced moss */
+/* Labels - small uppercase Inter, letterspaced navy */
 .contact__list strong {
   display: block;
   font-family: var(--font-ui);
@@ -96,7 +96,7 @@
   color: var(--slate-500);
 }
 
-/* ---------- Head office chip - calm cream, hairline only ---------- */
+/* ---------- Head office chip - calm ivory, hairline only ---------- */
 .contact__office {
   display: flex;
   align-items: center;

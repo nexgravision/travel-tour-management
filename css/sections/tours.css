@@ -3,7 +3,7 @@
    .tour-grid > .tour-card (4 bestseller tour cards)
    EDITORIAL LUXURY + RESTRAINED CHAMPAGNE:
    white card, warm hairline, no resting shadow, serif titles,
-   Calm brick rating chip, moss pin, serif pricing.
+   Calm steel rating chip, navy pin, serif pricing.
    ========================================================= */
 
 /* ---------- Grid: 1 -> 2 (>=640) -> 3 (>=960) -> 4 (>=1180) ---------- */
@@ -117,7 +117,7 @@ html.js .tour-card {
   color: var(--navy-950);
 }
 
-/* Rating (top-right) - brick text on cream */
+/* Rating (top-right) - steel text on ivory */
 .tour-card__rate {
   right: 0.85rem;
   color: var(--gold-700);
@@ -139,7 +139,7 @@ html.js .tour-card {
   padding: clamp(1.25rem, 2.2vw, 1.6rem);
 }
 
-/* Location: uppercase micro-label, muted slate, moss pin */
+/* Location: uppercase micro-label, muted slate, navy pin */
 .tour-card__loc {
   display: inline-flex;
   align-items: center;
@@ -160,7 +160,7 @@ html.js .tour-card {
   flex-shrink: 0;
 }
 
-/* Serif title: Playfair 500 in ink, moss on card hover */
+/* Serif title: Playfair 500 in ink, navy on card hover */
 .tour-card__body h3 {
   font-family: var(--font-display);
   font-weight: 500;

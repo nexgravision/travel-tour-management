@@ -10,7 +10,7 @@
   /* Section-scoped tokens */
   --hero-pad-top: 150px; /* clears the fixed topbar (~40px) + navbar (~74px) */
 
-  /* Calm espresso scrims, derived from --navy-950 (no raw colours) */
+  /* Calm navy scrims, derived from --navy-950 (no raw colours) */
   --scrim-strong: color-mix(in srgb, var(--navy-950) 88%, transparent);
   --scrim-mid: color-mix(in srgb, var(--navy-950) 56%, transparent);
   --scrim-soft: color-mix(in srgb, var(--navy-950) 44%, transparent);
@@ -40,7 +40,7 @@
 
 /* ---------------------------------------------------------
    MEDIA + OVERLAY
-   Slow, barely-there ken-burns; a deep espresso vignette that is
+   Slow, barely-there ken-burns; a deep navy vignette that is
    darkest at the header and at the base, with no saturated
    colour washes.
    --------------------------------------------------------- */
@@ -76,9 +76,9 @@
   z-index: 1;
   pointer-events: none;
   background:
-    /* moss + brick aurora over the espresso scrims */
-    radial-gradient(720px 430px at 78% 24%, rgba(124, 138, 92, 0.32), transparent 64%),
-    radial-gradient(560px 380px at 8% 86%, rgba(176, 113, 79, 0.2), transparent 64%),
+    /* steel + platinum aurora over the navy scrims */
+    radial-gradient(720px 430px at 78% 24%, rgba(111, 147, 184, 0.3), transparent 64%),
+    radial-gradient(560px 380px at 8% 86%, rgba(169, 187, 205, 0.2), transparent 64%),
     linear-gradient(
       180deg,
       var(--scrim-strong) 0%,
@@ -160,7 +160,7 @@
 }
 
 .hero__title em {
-  background: var(--grad-horizon);
+  background: var(--grad-platinum);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

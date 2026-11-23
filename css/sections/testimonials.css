@@ -3,7 +3,7 @@
    Markup: .tst > .tst__viewport > .tst__track > .tst-slide
            + [data-tst-prev] / [data-tst-next] + #tstDots
    Direction: editorial luxury - ivory surface, warm hairlines,
-   brick reserved for small accents only. No gradients,
+   platinum reserved for small accents only. No gradients,
    no diagonal patterns, no heavy shadows.
    ========================================================= */
 
@@ -73,7 +73,7 @@
   height: 3px;
   border-radius: 0 0 var(--r-full) var(--r-full);
   transform: translateX(-50%);
-  background: var(--grad-horizon);
+  background: var(--grad-navy);
 }
 
 @media (hover: hover) {
@@ -83,7 +83,7 @@
   }
 }
 
-/* ---------- Quote mark: small brick glyph, no gradient tile ---------- */
+/* ---------- Quote mark: small platinum glyph, no gradient tile ---------- */
 .tst-card__quote {
   display: flex;
   flex-direction: column;
@@ -143,7 +143,7 @@
   text-align: left;
 }
 
-/* avatar keeps its gradient fill inside a thin brick hairline ring */
+/* avatar keeps its gradient fill inside a thin steel hairline ring */
 .tst-card__avatar {
   flex-shrink: 0;
   display: grid;
@@ -228,7 +228,7 @@
 }
 
 /* ---------- Dots (built by js/modules/testimonials.js) ----------
-   Thin segments: inactive 16px, active 30px moss gradient.
+   Thin segments: inactive 16px, active 30px navy gradient.
    The 24x24 button box is the hit area; the line is a pseudo-element. */
 .tst__dots {
   grid-column: 1 / -1;

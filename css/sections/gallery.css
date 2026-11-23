@@ -1,8 +1,8 @@
 /* =========================================================
    GALLERY - #gallery magazine grid (.gal-*)
-   Editorial mosaic: warm cream gaps show the page through,
+   Editorial mosaic: warm ivory gaps show the page through,
    hairline-bordered tiles, muted photo treatment, calm
-   espresso scrim captions in uppercase Inter.
+   navy scrim captions in uppercase Inter.
    The lightbox overlay itself is styled in components.css;
    this file only styles the grid tiles and their captions.
    ========================================================= */
@@ -65,7 +65,7 @@
 
 /* ---------- Caption overlay ----------
    Gradient scrim rising from the bottom, uppercase Inter
-   letterspaced in cream - hover-revealed on pointer devices,
+   letterspaced in ivory - hover-revealed on pointer devices,
    always visible when hover is unavailable. */
 .gal-item__cap {
   position: absolute;
@@ -73,7 +73,7 @@
   right: 0;
   bottom: 0;
   padding: 2.1rem 0.9rem 0.85rem;
-  background: linear-gradient(180deg, transparent 0%, rgba(32, 26, 21, 0.86) 62%);
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 15, 30, 0.87) 62%);
   color: var(--white);
   font-family: var(--font-ui);
   font-size: var(--fs-eyebrow);
@@ -92,7 +92,7 @@
   transform: translateY(0);
 }
 
-/* Keyboard focus: moss ring, AA-safe against the light page */
+/* Keyboard focus: steel ring, AA-safe against the light page */
 .gal-item:focus-visible {
   outline: 3px solid var(--aqua-600);
   outline-offset: 3px;
