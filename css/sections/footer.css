@@ -1,13 +1,13 @@
 /* =========================================================
-   FOOTER - deep quiet navy, editorial 4-column grid
-   Hairline column rules, platinum micro-labels, glass inputs
+   FOOTER - deep quiet navy, editorial 3-column grid
+   Hairline column rules, platinum micro-labels, direct contact
    ========================================================= */
 
 .footer {
   position: relative;
   background: linear-gradient(180deg, var(--navy-950) 0%, var(--navy-900) 100%);
   color: var(--white);
-  padding-block: clamp(3.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.2rem);
+  padding-block: clamp(2.25rem, 4vw, 3.25rem) clamp(1.1rem, 2vw, 1.5rem);
 }
 
 /* Platinum hairline along the top edge */
@@ -37,68 +37,16 @@
   z-index: 1;
 }
 
-/* ---------- Top grid - 4 columns with vertical hairlines (desktop) ---------- */
+/* ---------- Top grid - 3 columns with vertical hairlines (desktop) ---------- */
 .footer__top {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
-  gap: clamp(1.6rem, 3vw, 2.4rem);
+  grid-template-columns: 1fr 1fr 1.35fr;
+  gap: clamp(1.4rem, 2.6vw, 2.2rem);
 }
 
 .footer__top > :nth-child(n + 2) {
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   padding-left: clamp(1.5rem, 2.5vw, 2.4rem);
-}
-
-/* ---------- Brand ---------- */
-.logo--footer .logo__text strong {
-  color: var(--white);
-}
-
-.logo--footer .logo__text small {
-  color: var(--gold-400);
-}
-
-.footer__brand p {
-  margin-top: 1rem;
-  margin-bottom: 1.3rem;
-  max-width: 34ch;
-  font-size: var(--fs-sm);
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.footer__socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-/* Soft discs with a hairline - platinum fill on hover */
-.footer__socials a {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(250, 248, 244, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.9);
-  transition:
-    background-color var(--dur-fast) var(--ease),
-    border-color var(--dur-fast) var(--ease),
-    color var(--dur-fast) var(--ease);
-}
-
-.footer__socials a:hover {
-  background: var(--gold-500);
-  border-color: var(--gold-400);
-  color: var(--navy-950);
-}
-
-.footer__socials svg {
-  width: 1.05rem;
-  height: 1.05rem;
-  fill: currentColor;
 }
 
 /* ---------- Columns ----------
@@ -111,8 +59,8 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold-400);
-  padding-bottom: 0.8rem;
-  margin-bottom: 1.15rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.9rem;
 }
 
 .footer__col h4::after {
@@ -135,8 +83,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  min-height: 42px; /* comfortable tap target on touch */
-  padding-block: 0.5rem;
+  min-height: 38px; /* comfortable tap target on touch */
+  padding-block: 0.35rem;
   font-size: var(--fs-sm);
   color: rgba(255, 255, 255, 0.74);
   transition: color var(--dur-fast) var(--ease);
@@ -163,8 +111,8 @@
 }
 
 /* ---------- Contact column ---------- */
-.footer__col--news > p {
-  margin-bottom: 1.15rem;
+.footer__col--contact > p {
+  margin-bottom: 0.9rem;
   max-width: 34ch;
   font-size: var(--fs-sm);
   color: rgba(255, 255, 255, 0.72);
@@ -174,9 +122,9 @@
 .footer__contact {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 1.35rem;
-  padding-top: 1.25rem;
+  gap: 0.5rem;
+  margin-top: 1.05rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -184,8 +132,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  min-height: 42px;
-  padding-block: 0.3rem;
+  min-height: 38px;
+  padding-block: 0.25rem;
   font-size: var(--fs-sm);
   color: rgba(255, 255, 255, 0.75);
   transition: color var(--dur-fast) var(--ease);
@@ -209,8 +157,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.85rem 1.5rem;
-  margin-top: clamp(2.5rem, 5vw, 3.5rem);
-  padding-top: 1.4rem;
+  margin-top: clamp(1.6rem, 3vw, 2.2rem);
+  padding-top: 1.1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: var(--fs-xs);
   color: rgba(255, 255, 255, 0.7);
@@ -236,10 +184,12 @@
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 980px) {
+@media (max-width: 768px) {
+  /* Two link columns side by side; the expert column spans both
+     below a horizontal hairline - keeps the footer short. */
   .footer__top {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: clamp(1.4rem, 3vw, 2rem);
+    row-gap: clamp(1.2rem, 3vw, 1.6rem);
   }
 
   /* Editorial column rules only make sense in a single desktop row */
@@ -248,32 +198,16 @@
     padding-left: 0;
   }
 
-  /* Second row of the 2-col grid gets a horizontal hairline instead */
-  .footer__top > :nth-child(n + 3) {
+  .footer__top > :nth-child(3) {
+    grid-column: 1 / -1;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: clamp(1.6rem, 3vw, 2.2rem);
+    padding-top: clamp(1.2rem, 3vw, 1.6rem);
   }
 }
 
 @media (max-width: 560px) {
-  /* Keep the two link lists side by side on phones so the footer does
-     not run for two full screens; brand and newsletter span the row. */
   .footer__top {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.4rem;
-  }
-
-  .footer__brand,
-  .footer__col--news {
-    grid-column: 1 / -1;
-  }
-
-  /* A hairline above each stacked row */
-  .footer__top > :nth-child(2),
-  .footer__top > :nth-child(3),
-  .footer__top > :nth-child(4) {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 1.4rem;
+    gap: 1.1rem 1.4rem;
   }
 
   .footer__bottom {
