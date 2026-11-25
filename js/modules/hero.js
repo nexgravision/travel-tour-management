@@ -134,11 +134,14 @@
   }
 
   /* ---------- three-card window (built with createElement only) ----------
-     The track holds a short slice of the ring: the active card in
-     slot 1, then the next two, plus whichever extra cards an
-     in-flight slide needs. Everything is rebuilt from these
-     primitives so the window can never drift from `current`. */
-  function buildCard(idx, activeForCard) {
+     The window shows the three destinations that FOLLOW the slide on
+     screen: if the background shows slide N, the cards are N+1, N+2,
+     N+3 (a 4th card sits clipped until a slide needs it). The active
+     slide's own photo lives only in the background, so a card can
+     never repeat it or trail the previous slide. Everything is
+     rebuilt from these primitives so the window can never drift from
+     `current` (window start is always current + 1). */
+  function buildCard(idx) {
     var slide = slides[idx];
     if (!slide) return null;
 
@@ -147,9 +150,9 @@
     btn.className = "hero__rcard";
     btn.setAttribute("data-idx", String(idx));
     btn.setAttribute("aria-label", "Show destination: " + slide.location);
-    var on = idx === activeForCard;
-    btn.setAttribute("aria-pressed", on ? "true" : "false");
-    if (on) btn.classList.add("is-active");
+    /* No card can be "pressed": the destination currently shown is the
+       background, not a card. */
+    btn.setAttribute("aria-pressed", "false");
 
     var img = doc.createElement("img");
     img.className = "hero__rcard-img";
@@ -189,34 +192,23 @@
   }
 
   /* Rebuild the whole window at rest: `count` cards starting at
-     `start`, active card highlighted. */
-  function renderWindow(start, count, activeForCard) {
+     `start` (the caller passes active + 1). */
+  function renderWindow(start, count) {
     if (!trackEl) return;
     while (trackEl.firstChild) trackEl.removeChild(trackEl.firstChild);
     for (var k = 0; k < count; k++) {
-      var card = buildCard(ringIdx(start + k), activeForCard);
+      var card = buildCard(ringIdx(start + k));
       if (card) trackEl.appendChild(card);
     }
   }
 
   /* Top up an existing window (its children already start at `start`). */
-  function ensureWindow(start, count, activeForCard) {
+  function ensureWindow(start, count) {
     if (!trackEl) return;
     var have = trackEl.children.length;
     for (var k = have; k < count; k++) {
-      var card = buildCard(ringIdx(start + k), activeForCard);
+      var card = buildCard(ringIdx(start + k));
       if (card) trackEl.appendChild(card);
-    }
-  }
-
-  function markWindowActive(idx) {
-    if (!trackEl) return;
-    var want = String(idx);
-    var kids = trackEl.children;
-    for (var k = 0; k < kids.length; k++) {
-      var on = kids[k].getAttribute("data-idx") === want;
-      kids[k].classList.toggle("is-active", on);
-      kids[k].setAttribute("aria-pressed", on ? "true" : "false");
     }
   }
 
@@ -246,14 +238,16 @@
     }
     sliding = false;
     if (!trackEl) return;
-    renderWindow(slideTarget, 4, slideTarget);
+    renderWindow(slideTarget, 4); /* slideTarget is the window start */
     setTrack(0, true);
   }
 
-  /* Move the window from `from` to `to`:
-     - forward 1-2 slots: keep the current cards, append the ones the
-       incoming slide needs and translate the track (the new active
-       card slides in already highlighted);
+  /* Move the window when the active slide goes from `from` to `to`.
+     The window start is always active + 1, so the leftmost card is
+     the one that becomes the background and leaves the row:
+     - forward 1-3 slots (arrows, autoplay, clicking any visible
+       card): top the track up with the cards the new window needs
+       and translate it that many slots left;
      - prev (one slot back): rebuild with a lead-in card, snap two
        slots left with no animation, then slide one slot right;
      - anything else (programmatic jumps): rebuild instantly.
@@ -268,17 +262,18 @@
     }
 
     if (reduce || n < 2 || !trackEl) {
-      renderWindow(to, 4, to);
+      renderWindow(to + 1, 4);
       return;
     }
 
     var dist = ((to - from) % n + n) % n;
 
     try {
-      if (dist >= 1 && dist <= 2) {
-        ensureWindow(from, 3 + dist, to);
-        markWindowActive(to);
-        slideTarget = to;
+      if (dist >= 1 && dist <= 3) {
+        /* rest window is [from+1 .. from+4]; the new rest window ends
+           at to+3 = from+dist+3, so count = 3 + dist covers it */
+        ensureWindow(from + 1, 3 + dist);
+        slideTarget = to + 1; /* window start once the slide lands */
         sliding = true;
         setTrack(-dist * trackPitch(), false);
         slideTimer = window.setTimeout(finalizeSlide, SLIDE_MS);
@@ -286,9 +281,10 @@
       }
 
       if (dist === n - 1) {
-        /* prev: [from-2 .. from+2], start two slots in, slide one back */
-        renderWindow(from - 2, 5, to);
-        slideTarget = to;
+        /* prev: [from-1 .. from+3], start two slots in (showing the
+           old [from+1 .. from+3]), then slide one slot right */
+        renderWindow(from - 1, 5);
+        slideTarget = to + 1;
         sliding = true;
         setTrack(-2 * trackPitch(), true);
         setTrack(-1 * trackPitch(), false);
@@ -299,7 +295,7 @@
       warn("hero.js: card window slide failed", err);
     }
 
-    renderWindow(to, 4, to);
+    renderWindow(to + 1, 4);
   }
 
   /* ---------- background: two layers, newest wins ---------- */
@@ -683,9 +679,10 @@
       if (layers[0]) layers[0].classList.add("is-active");
     }
 
-    /* Rest window: the first three destinations (the fourth slot is
-       clipped until a slide needs it). */
-    renderWindow(0, 4, 0);
+    /* Window for slide 0: the destinations that follow it (1,2,3,4 -
+       the 4th clipped) while the static markup shows slide 0 as the
+       background. */
+    renderWindow(1, 4);
 
     /* One delegated handler instead of per-card listeners: the window
        rebuilds its cards on every slide. */

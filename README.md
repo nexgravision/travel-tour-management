@@ -30,9 +30,11 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
   destination — by clicking its card, the prev/next arrows, or the
   ArrowLeft / ArrowRight keys while focus is inside
   the rail — crossfades that photo into the hero background while the
-  country, title, location and description swap to match. The active card
-  (first slot) is highlighted and carries `aria-pressed="true"`, the
-  `01 / 08` counter follows it, and navigation wraps around at both ends
+  country, title, location and description swap to match. The three cards
+  always show the destinations that FOLLOW the one on screen — the
+  background photo is never repeated in a card and no previous slide ever
+  lingers — the `01 / 08` counter tracks the background, and navigation
+  wraps around at both ends
 - **Hero auto-rotation** — the carousel advances through all 8 destinations
   every 6 seconds (the first advance lands 6s after page load), wraps from
   the last destination back to the first and loops forever instead of
