@@ -453,11 +453,6 @@
   margin-left: 0.4rem;
 }
 
-/* Call/email shortcuts live in the mobile drawer only */
-.nav-menu__contact {
-  display: none;
-}
-
 /* Hamburger - navy tile */
 .nav-toggle {
   display: none;
@@ -892,7 +887,13 @@
     transform: none;
   }
 
+  /* Drawer rows: full-width block links so padding never overlaps */
+  .nav-menu > li {
+    width: 100%;
+  }
+
   .nav-link {
+    display: block;
     color: rgba(255, 255, 255, 0.88);
     font-size: 1.08rem;
     font-weight: 500;
@@ -922,62 +923,6 @@
 
   .nav-menu__cta .btn {
     width: 100%;
-  }
-
-  /* Drawer footer: tap-to-call and tap-to-email */
-  .nav-menu__contact {
-    display: block;
-    width: 100%;
-    margin-top: 1.3rem;
-    padding-top: 1.1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
-  }
-
-  .nav-menu__contact a {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    min-height: 52px;
-    padding: 0.55rem 0.6rem;
-    border-radius: var(--r-md);
-    color: rgba(255, 255, 255, 0.88);
-    font-family: var(--font-ui);
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition:
-      background-color var(--dur-fast) var(--ease),
-      color var(--dur-fast) var(--ease);
-  }
-
-  .nav-menu__contact a:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--white);
-  }
-
-  .nav-menu__contact a svg {
-    width: 1.1rem;
-    height: 1.1rem;
-    flex-shrink: 0;
-    fill: var(--gold-400);
-  }
-
-  .nav-menu__contact a span {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  .nav-menu__contact strong {
-    color: inherit;
-    font-weight: 600;
-    overflow-wrap: anywhere;
-  }
-
-  .nav-menu__contact small {
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.55);
   }
 
   body.menu-open {

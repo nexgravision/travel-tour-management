@@ -386,15 +386,27 @@ html.js .pkg-card {
   }
 }
 
+/* One row always - wrapping turns the capsule into a two-row
+   blob. Below here the row scrolls horizontally instead */
+@media (max-width: 560px) {
+  .pkg-tabs {
+    flex-wrap: nowrap;
+    /* Flex-start so the scrollable row never clips its left edge */
+    justify-content: flex-start;
+  }
+}
+
 @media (max-width: 480px) {
   .pkg-tabs {
     justify-content: flex-start;
     padding: 0.3rem;
   }
 
+  /* Tighter capsule so the three tabs fit a 375px screen in
+     one swipe-able row (tap height stays ~40px) */
   .pkg-tab {
-    padding: 0.7rem 1.05rem;
-    letter-spacing: 0.14em;
+    padding: 0.75rem 0.55rem;
+    letter-spacing: 0.1em;
   }
 
   .pkg-card__tag,
