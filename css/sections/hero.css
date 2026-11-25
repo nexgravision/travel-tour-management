@@ -154,6 +154,8 @@
   justify-content: flex-end;
   justify-content: safe flex-end;
   padding-top: var(--hero-pad-top);
+  /* Unreachable below: the >=1100px and <=1099px blocks both
+     override this. Kept only as a fallback for any new breakpoint. */
   padding-bottom: clamp(1.6rem, 5vh, 3rem);
 }
 
@@ -323,7 +325,7 @@
   --rail-gap: clamp(10px, 1vw, 16px);
   position: relative;
   z-index: 3;
-  width: min(100%, 620px);
+  width: min(100%, 700px);
   margin-left: auto;
   padding: 0 clamp(20px, 5vw, 40px) clamp(20px, 4vh, 36px);
 }
@@ -336,9 +338,9 @@
 
 /* Fixed window: exactly three cards wide, the rest clipped - the JS
    slides the track itself (no user scrolling, no snap). The vertical
-   padding + matching negative margins keep the card hover/active
-   scale and most of the soft card shadow from being clipped by the
-   overflow box; the desktop block deepens this at >= 1100px. */
+   padding + matching negative margins keep most of the soft card
+   shadow from being clipped by the overflow box; the desktop block
+   deepens this at >= 1100px. */
 .hero__rail-viewport {
   overflow: hidden;
   padding: 20px 0;
@@ -368,7 +370,11 @@
 /* --- Destination card ------------------------------------
    Cards are exactly a third of the window wide: three cards and
    two gaps fill the viewport, the fourth (incoming) card simply
-   overflows and is clipped until the track slides it in. */
+   overflows and is clipped until the track slides it in. No
+   per-state scaling: the uniform gap + identical calc() widths
+   keep all three cards pixel-identical (equal spacing); the
+   active card only stands out through opacity, border and
+   shadow. */
 .hero__rcard {
   position: relative;
   flex: 0 0 auto;
@@ -384,13 +390,11 @@
   border: 1px solid color-mix(in srgb, var(--white) 24%, transparent);
   color: var(--white);
   opacity: 0.74;
-  transform: scale(0.96);
   filter: saturate(0.85);
   font: inherit;
   text-align: left;
   transition:
     opacity 0.45s var(--ease),
-    transform 0.45s var(--ease),
     border-color 0.45s var(--ease),
     box-shadow 0.45s var(--ease),
     filter 0.45s var(--ease);
@@ -398,7 +402,6 @@
 
 .hero__rcard:hover {
   opacity: 0.95;
-  transform: scale(0.985);
 }
 
 /* Steel ring - base.css's aqua-600 focus colour is too deep to
@@ -414,7 +417,6 @@
    and a soft lift instead of a colour flash. */
 .hero__rcard.is-active {
   opacity: 1;
-  transform: scale(1);
   filter: none;
   border-color: color-mix(in srgb, var(--gold-400) 75%, transparent);
   box-shadow:
@@ -548,8 +550,8 @@
    leaves the flow here (position: absolute, bottom: 0, right: 0,
    z3 above .hero__overlay z1) so the bottom-anchored copy sits
    bottom-left while this window sits bottom-right, side by side
-   along the hero's bottom edge. Width drops to min(46vw, 660px)
-   and .hero__copy is capped at min(48vw, 600px) so the two
+   along the hero's bottom edge. Width becomes min(48vw, 800px)
+   and .hero__copy is capped at min(44vw, 560px) so the two
    columns can never collide (per-width arithmetic on that rule);
    the window's height no longer feeds the hero's height - only a
    tall copy stack can grow .hero past min-height now.
@@ -566,26 +568,34 @@
     bottom: 0;
     right: 0;
     z-index: 3;
-    width: min(46vw, 660px);
+    width: min(48vw, 800px);
     margin-left: 0;
     padding: 0 clamp(24px, 4vw, 72px) clamp(20px, 3.5vh, 40px);
   }
 
   /* The copy column always ends before the rail's left edge.
-     Copy: min(48vw, 600px) from the container's left gutter
-     (--gutter clamps to 2.25rem = 36px above 720px); rail:
-     min(46vw, 660px) pinned right, its cards starting another
-     clamp(24px, 4vw, 72px) inside the rail box.
-     At 1100px: copy 36..564 vs rail left edge 594 (30px clear,
-     74px to the first card).
-     At 1280px: copy 36..636 vs rail 691 (55px clear).
-     At 1440px: copy 36..636 vs rail 780 (144px clear).
-     At 1920px: copy 36..636 vs rail 1260 (624px clear).
-     The gap only widens with the viewport (30px at 1100px is the
-     floor). The CTA row (~510px of buttons) ends near x=546 at
-     1100px, also clear of the rail. */
+     Copy: min(44vw, 560px) from the container's left gutter
+     (--gutter clamps to 2.25rem = 36px above 720px; the container
+     is max-width: 1240px and centred, so its left edge is
+     (layout - 1240) / 2 once the layout passes 1240px). Rail:
+     min(48vw, 800px) pinned right on the layout width (vw - 10px
+     scrollbar), its cards starting another clamp(24px, 4vw, 72px)
+     inside the rail box. Copy right / rail left / clear:
+     1100px: 520 / 562 -> 42px clear.
+     1280px: 611 / 655.6 -> 44.6px clear.
+     1440px: 691 / 738.8 -> 47.8px clear.
+     1920px: 931 / 1110 -> 179px clear.
+     The 1240px container only starts centring at 1250px, so the
+     clear gap eases from 54px (1250px) down to ~44px (~1273px)
+     before growing again - it never drops under the 42px floor at
+     1100px (requirement: >= 20px at every width >= 1100px). The
+     CTA row is a sibling of .hero__copy at its natural 502px, so
+     it ends at 538 / 553 / 633 / 873 at those widths: its clear
+     gap to the rail (24 / 102.6 / 105.8 / 237px) only grows. The
+     first card starts another padding inside the rail box, so the
+     visible gap to the text is always larger than these numbers. */
   .hero__copy {
-    width: min(48vw, 600px);
+    width: min(44vw, 560px);
   }
 
   /* Clear the full --sh-card-hover shadow (0 20px 46px reaches 66px
@@ -602,21 +612,26 @@
     margin: -8px 0 -66px;
   }
 
-  /* Height cap scales with the viewport (34vh, topped out at
-     320px) so the taller 3/5 tiles never take over a tall screen;
-     aspect-ratio: 3/5 governs until the cap clamps it and the
-     object-fit: cover image absorbs the ratio change. Short
-     laptops (<= 820px tall) get the tighter 24vh cap back in the
-     block below. */
+  /* Height cap scales with the viewport (40vh, topped out at
+     400px) so the taller 3/5 tiles reach their full height on
+     tall screens (no cap bites before the aspect ratio does on
+     common desktop heights); aspect-ratio: 3/5 governs until the
+     cap clamps it and the object-fit: cover image absorbs the
+     ratio change. The short-screen block below no longer tightens
+     this - the rail is absolute from 1100px up, so card height
+     cannot push the nav row below the fold (it is pinned to the
+     hero's bottom edge). */
   .hero__rcard {
-    max-height: min(320px, 34vh);
+    max-height: min(400px, 40vh);
   }
 
   /* The rail left the flow, so this padding is now simply the
-     bottom-anchored copy's margin from the hero's bottom edge (the
-     window sits beside the copy, not beneath it). */
+     bottom-anchored copy's lift off the hero's bottom edge: 48-96px
+     (the window sits beside the copy, not beneath it, so copy and
+     cards end up slightly offset - the intended improved vertical
+     alignment). */
   .hero__inner {
-    padding-bottom: clamp(0.75rem, 2.5vh, 1.5rem);
+    padding-bottom: clamp(3rem, 8vh, 6rem);
   }
 }
 
@@ -624,9 +639,13 @@
    a tall copy stack would otherwise grow .hero past the fold and
    drop the nav row (arrows and index) below it. Tighten the
    vertical rhythm instead of letting the hero scroll - the
-   headline scales with the available height, the card window
-   keeps the tighter 24vh cap (below), and the fixed navbar
-   clearance (--hero-pad-top) stays above the 74px navbar. */
+   headline scales with the available height, the copy gets the
+   same bottom lift as the <=1099px block, and the fixed navbar
+   clearance (--hero-pad-top) stays above the 74px navbar. The
+   card window keeps the desktop height cap: with the rail
+   absolute from 1100px up, card height can no longer push the
+   nav row below the fold (see the note where the old 24vh cap
+   used to be). */
 @media (min-width: 1100px) and (max-height: 820px) {
   .hero {
     --hero-pad-top: 96px;
@@ -640,23 +659,25 @@
     padding-bottom: 14px;
   }
 
-  /* The cap returns here: with aspect-ratio 3/5 the desktop block
-     would allow min(320px, 34vh) = 261px tiles on a 768px-tall
-     screen where 3/4 tiles were clamped to 184px. Restoring
-     min(250px, 24vh) keeps exactly the old window height and this
-     block's tighter rhythm; the nav row's document bottom stays
-     754px <= 768px (the rail is bottom-anchored from 1100px up,
-     so the nav sits at hero-bottom - 14px regardless). */
-  .hero__rcard {
-    max-height: min(250px, 24vh);
-  }
-
+  /* No card-height cap here any more: the old min(250px, 24vh)
+     rule existed only to keep the nav row above the fold at
+     1366x768, but the rail is absolute from 1100px up, so the nav
+     row sits at hero-bottom minus its 14px padding REGARDLESS of
+     card height. Fold math at 1366x768 (hero = 768): nav document
+     bottom = 768 - 14 = 754 <= 768 (fold); rail top = 768 -
+     (card ~288 + nav 56 + 14) = ~410; copy top = 768 - (38 pad +
+     ~322 stack) = ~408 > navbar bottom 75. Copy and rail overlap
+     vertically but are horizontally separated (copy right 654 vs
+     rail left 700, 46px clear), so nothing collides. */
   .hero__rail-nav {
     padding-top: 10px;
   }
 
   .hero__inner {
-    padding-bottom: clamp(8px, 1.5vh, 12px);
+    /* Same bottom lift as the <=1099px block: at 1366x768 the
+       copy clears the navbar with room to spare (96 + ~322 + 38 =
+       ~456 <= 768, copy top ~408 > 75). */
+    padding-bottom: clamp(2rem, 5vh, 3.5rem);
   }
 }
 
@@ -667,9 +688,10 @@
 @media (max-width: 1099px) {
   /* Positioning (bottom-right block, z-index, width, padding) and
      the three-up card sizing live in the base rules - only the copy
-     clearance differs here. */
+     clearance differs here: lift the copy 32-56px off the hero's
+     bottom edge so it reads clear of the card strip below it. */
   .hero__inner {
-    padding-bottom: clamp(0.75rem, 2.5vh, 1.5rem);
+    padding-bottom: clamp(2rem, 5vh, 3.5rem);
   }
 }
 
@@ -720,6 +742,13 @@
 @media (max-width: 480px) {
   .hero__actions {
     width: 100%;
+  }
+
+  /* Tighter copy lift on small phones so the card window and its
+     nav row still fit the fold (760px-tall viewport: 30px instead
+     of 38px puts the nav bottom back at ~756 <= 760). */
+  .hero__inner {
+    padding-bottom: clamp(1.5rem, 4vh, 2.5rem);
   }
 
   .hero__actions .btn {
@@ -787,12 +816,6 @@
   }
 
   .hero__rail-btn:hover {
-    transform: none;
-  }
-
-  .hero__rcard,
-  .hero__rcard:hover,
-  .hero__rcard.is-active {
     transform: none;
   }
 
