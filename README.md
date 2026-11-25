@@ -49,7 +49,7 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
 - **Popular tours**, **services** (flights, hotels, holidays, honeymoon, group, custom), **about** with animated counters
 - **Gallery** with keyboard-accessible lightbox (focus trap, arrow navigation)
 - **Testimonials** slider with autoplay, swipe and ARIA tab pattern
-- **Contact section** with call, email, office address and head-office details
+- **Contact section** with call, email and office address
 - Toasts, back-to-top, sticky hide-on-scroll header (single-bar navbar — the
   topbar strip was removed) with the social icons in the footer bottom bar
 - Fully **responsive** (1440 → 360 px), WCAG AA contrast, `prefers-reduced-motion` respected

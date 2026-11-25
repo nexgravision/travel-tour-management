@@ -96,54 +96,6 @@
   color: var(--slate-500);
 }
 
-/* ---------- Head office chip - calm ivory, hairline only ---------- */
-.contact__office {
-  display: flex;
-  align-items: center;
-  gap: 0.95rem;
-  max-width: 540px;
-  margin: clamp(2rem, 4vw, 3rem) auto 0;
-  padding: 1rem 1.2rem;
-  background: var(--ivory);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-}
-
-.contact__office-icon {
-  flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--white);
-  border: 1px solid var(--line);
-}
-
-.contact__office-icon svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--navy-800);
-}
-
-.contact__office strong {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--aqua-700);
-  margin-bottom: 0.2rem;
-}
-
-.contact__office > div > span {
-  display: block;
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  color: var(--ink);
-}
-
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
   .contact__list {
@@ -169,17 +121,5 @@
   .contact__icon {
     width: 44px;
     height: 44px;
-  }
-}
-
-@media (max-width: 480px) {
-  .contact__office {
-    padding: 0.9rem 1rem;
-    gap: 0.8rem;
-  }
-
-  .contact__office-icon {
-    width: 40px;
-    height: 40px;
   }
 }
