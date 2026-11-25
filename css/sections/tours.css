@@ -3,7 +3,7 @@
    .tour-grid > .tour-card (4 bestseller tour cards)
    EDITORIAL LUXURY + RESTRAINED CHAMPAGNE:
    white card, warm hairline, no resting shadow, serif titles,
-   Calm steel rating chip, navy pin, serif pricing.
+   Calm steel rating chip, navy pin.
    ========================================================= */
 
 /* ---------- Grid: 1 -> 2 (>=640) -> 3 (>=960) -> 4 (>=1180) ---------- */
@@ -179,41 +179,6 @@ html.js .tour-card {
   line-height: var(--lh-body);
   color: var(--slate-600);
   margin-bottom: 1.15rem;
-}
-
-/* ---------- Footer: price ---------- */
-.tour-card__foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.85rem;
-  margin-top: auto;
-  padding-top: 1.15rem;
-  border-top: 1px solid var(--line);
-}
-
-.tour-card__price {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.4vw, 1.35rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--navy-900);
-  white-space: nowrap;
-}
-
-/* "per person" label: small uppercase Inter, muted */
-.tour-card__price small {
-  margin-bottom: 0.32rem;
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--slate-500);
 }
 
 /* ---------- Reduced motion ---------- */

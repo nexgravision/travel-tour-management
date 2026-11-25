@@ -49,7 +49,7 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
   6-second countdown for the slide it selects. Automatic changes set the
   hero copy's `aria-live` to `"off"` so nothing is announced every 6
   seconds; manual changes set it to `"polite"` and are announced
-- **Destinations** — 8 cards with real pricing, ratings and details
+- **Destinations** — 8 cards with ratings, durations and details
 - **Tour packages** — domestic & international with tabbed filtering and wishlist toggles
 - **Popular tours**, **services** (flights, hotels, holidays, honeymoon, group, custom), **about** with animated counters
 - **Gallery** with keyboard-accessible lightbox (focus trap, arrow navigation)

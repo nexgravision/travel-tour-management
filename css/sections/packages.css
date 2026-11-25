@@ -1,7 +1,7 @@
 /* =========================================================
    PACKAGES - category tabs, package cards, wishlist button
    EDITORIAL LUXURY + RESTRAINED CHAMPAGNE
-   Hairline switcher, white cards, serif pricing, calm
+   Hairline switcher, white cards, serif titles, calm
    dot-separated inclusions row.
    ========================================================= */
 
@@ -336,42 +336,6 @@ html.js .pkg-card {
   background: var(--gold-400);
 }
 
-/* ---------------------------------------------------------
-   FOOT - hairline divider + serif price
-   --------------------------------------------------------- */
-.pkg-card__foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid var(--line);
-}
-
-.pkg-card__price {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 1.9vw, 1.6rem);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
-
-.pkg-card__price small {
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--slate-500);
-  margin-bottom: 0.15rem;
-}
-
 /* Filtered-out state (class toggled by tabs.js) */
 .pkg-grid > .pkg-card.is-hidden {
   display: none;
@@ -425,10 +389,6 @@ html.js .pkg-card {
     right: 0.7rem;
     width: 2.5rem;
     height: 2.5rem;
-  }
-
-  .pkg-card__foot {
-    gap: 0.6rem;
   }
 }
 
