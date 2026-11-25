@@ -240,12 +240,14 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 16px;
-  height: 1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
   transform: translate(-50%, -50%);
   background: var(--line-strong);
   transition:
     width var(--dur) var(--ease),
+    height var(--dur) var(--ease),
     background-color var(--dur) var(--ease);
 }
 
@@ -254,10 +256,9 @@
 }
 
 .tst__dots button.is-active::before {
-  width: 30px;
-  height: 3px;
-  border-radius: var(--r-full);
-  background: var(--grad-brand);
+  width: 11px;
+  height: 11px;
+  background: var(--aqua-600);
 }
 
 /* ---------- Responsive ---------- */

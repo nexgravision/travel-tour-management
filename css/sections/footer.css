@@ -65,6 +65,10 @@
 .footer__col ul {
   display: flex;
   flex-direction: column;
+  /* bare <ul>: base.css only resets lists that carry a class, so the
+     footer's two lists would otherwise show UA discs and a 40px indent */
+  list-style: none;
+  padding-left: 0;
 }
 
 .footer__col ul li a {
@@ -78,24 +82,8 @@
   transition: color var(--dur-fast) var(--ease);
 }
 
-.footer__col ul li a::after {
-  content: "\2192";
-  font-size: 0.8em;
-  color: var(--aqua-300);
-  opacity: 0;
-  transform: translateX(-4px);
-  transition:
-    opacity var(--dur-fast) var(--ease),
-    transform var(--dur-fast) var(--ease);
-}
-
 .footer__col ul li a:hover {
   color: var(--aqua-300);
-}
-
-.footer__col ul li a:hover::after {
-  opacity: 1;
-  transform: none;
 }
 
 /* ---------- Contact column ---------- */
@@ -143,32 +131,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   gap: 0.85rem 1.5rem;
   margin-top: clamp(1.6rem, 3vw, 2.2rem);
   padding-top: 1.1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: var(--fs-xs);
   color: rgba(255, 255, 255, 0.7);
-}
-
-.footer__legal {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.4rem;
-}
-
-.footer__legal .link-btn {
-  color: rgba(255, 255, 255, 0.62);
-  font-size: var(--fs-xs);
-  font-weight: 500;
-  text-decoration: none;
-  padding-block: 0.4rem;
-  transition: color var(--dur-fast) var(--ease);
-}
-
-.footer__legal .link-btn:hover {
-  color: var(--aqua-300);
 }
 
 /* ---------- Responsive ---------- */
@@ -196,10 +166,5 @@
 @media (max-width: 560px) {
   .footer__top {
     gap: 1.1rem 1.4rem;
-  }
-
-  .footer__bottom {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }
