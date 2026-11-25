@@ -13,18 +13,23 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
 - **Static showcase** — no backend, database, booking or appointment flow; every
   section is plain HTML you can edit directly in `index.html`
 - **Full-screen hero** with cinematic backdrop and CTA buttons, driven by an
-  interactive destination carousel: a **three-card window** pinned to the
-  bottom right of the hero on every screen size, with the nav row (arrows
-  left, `01 / 08` index right) beneath it. Exactly three cards fit the
-  window; the track slides them one slot per destination (2 → 1, 3 → 2,
-  4 → 3 …) so a new card always enters from the right while the outgoing
-  one's photo becomes the background. Picking a destination — by clicking
-  its card, the prev/next arrows, or the ArrowLeft / ArrowRight keys while
-  focus is inside the rail — crossfades that photo into the hero
-  background while the country, title, location and description swap to
-  match. The active card (first slot) is highlighted and carries
-  `aria-pressed="true"`, the `01 / 08` counter follows it, and navigation
-  wraps around at both ends
+  interactive destination carousel: the destination copy (country eyebrow,
+  big title + tagline, location line, description and the two CTA buttons)
+  is anchored to the **bottom-left** of the hero at every screen size — the
+  photo fills the space above it. On desktop (≥1100px) the copy and a
+  **three-card window** sit side by side along the bottom, copy left and
+  cards right (nav row — arrows left, `01 / 08` index right — beneath the
+  cards); below 1100px the window flows beneath the copy. The cards are
+  tall 3:5 tiles, height-capped on short (≤820px) laptop screens so the nav
+  row stays above the fold at 1366×768. Exactly three cards fit the window;
+  the track slides them one slot per destination (2 → 1, 3 → 2, 4 → 3 …) so
+  a new card always enters from the right while the outgoing one's photo
+  becomes the background. Picking a destination — by clicking its card, the
+  prev/next arrows, or the ArrowLeft / ArrowRight keys while focus is inside
+  the rail — crossfades that photo into the hero background while the
+  country, title, location and description swap to match. The active card
+  (first slot) is highlighted and carries `aria-pressed="true"`, the
+  `01 / 08` counter follows it, and navigation wraps around at both ends
 - **Hero auto-rotation** — the carousel advances through all 8 destinations
   every 6 seconds (the first advance lands 6s after page load), wraps from
   the last destination back to the first and loops forever instead of
