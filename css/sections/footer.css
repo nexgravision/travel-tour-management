@@ -50,7 +50,7 @@
 }
 
 /* ---------- Columns ----------
-   Small uppercase Inter labels in platinum with a gradient rule */
+   Small uppercase Inter labels in platinum */
 .footer__col h4 {
   position: relative;
   font-family: var(--font-ui);
@@ -59,19 +59,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold-400);
-  padding-bottom: 0.7rem;
   margin-bottom: 0.9rem;
-}
-
-.footer__col h4::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 30px;
-  height: 3px;
-  border-radius: var(--r-full);
-  background: var(--grad-platinum);
 }
 
 .footer__col ul {

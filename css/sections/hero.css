@@ -167,7 +167,7 @@
   transform: translateY(14px);
 }
 
-/* Micro-label: hairline + gold dot + uppercase Inter, no glass pill */
+/* Micro-label: gold dot + uppercase Inter, no glass pill */
 .hero__eyebrow {
   display: inline-flex;
   align-items: flex-start;
@@ -182,16 +182,6 @@
   line-height: 1.7;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-}
-
-.hero__eyebrow::before {
-  content: "";
-  flex-shrink: 0;
-  width: 30px;
-  height: 1px;
-  margin-top: calc(0.85em - 0.5px);
-  background: var(--gold-400);
-  opacity: 0.85;
 }
 
 .hero__eyebrow-dot {
@@ -732,10 +722,6 @@
   .hero__eyebrow {
     font-size: 0.7rem;
     letter-spacing: 0.16em;
-  }
-
-  .hero__eyebrow::before {
-    width: 22px;
   }
 }
 
