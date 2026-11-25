@@ -13,18 +13,18 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
 - **Static showcase** — no backend, database, booking or appointment flow; every
   section is plain HTML you can edit directly in `index.html`
 - **Full-screen hero** with cinematic backdrop and CTA buttons, driven by an
-  interactive destination carousel: the 8 destinations sit in a card rail —
-  a filmstrip along the bottom of the hero on every screen size, with the
-  nav row (arrows left, `01 / 08` index right) beneath the cards. On PC all
-  8 cards stay visible in the row, growing to fill the width up to a 200px
-  cap each (the strip scrolls horizontally only when the viewport is too
-  narrow), while tablets and phones keep smaller fixed-width cards that
-  scroll horizontally. Picking one — by clicking its card, the prev/next
-  arrows, or the ArrowLeft / ArrowRight keys while focus is inside the rail
-  — crossfades that photo into the hero background while the country,
-  title, location and description swap to match. The active card is
-  highlighted and carries `aria-pressed="true"`, the `01 / 08` counter and
-  rail scroll follow it, and navigation wraps around at both ends
+  interactive destination carousel: a **three-card window** pinned to the
+  bottom right of the hero on every screen size, with the nav row (arrows
+  left, `01 / 08` index right) beneath it. Exactly three cards fit the
+  window; the track slides them one slot per destination (2 → 1, 3 → 2,
+  4 → 3 …) so a new card always enters from the right while the outgoing
+  one's photo becomes the background. Picking a destination — by clicking
+  its card, the prev/next arrows, or the ArrowLeft / ArrowRight keys while
+  focus is inside the rail — crossfades that photo into the hero
+  background while the country, title, location and description swap to
+  match. The active card (first slot) is highlighted and carries
+  `aria-pressed="true"`, the `01 / 08` counter follows it, and navigation
+  wraps around at both ends
 - **Hero auto-rotation** — the carousel advances through all 8 destinations
   every 6 seconds (the first advance lands 6s after page load), wraps from
   the last destination back to the first and loops forever instead of
@@ -45,7 +45,8 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
 - **Gallery** with keyboard-accessible lightbox (focus trap, arrow navigation)
 - **Testimonials** slider with autoplay, swipe and ARIA tab pattern
 - **Contact section** with call, email, office address and head-office details
-- **Legal modals** (privacy / terms / cookies), toasts, back-to-top, sticky hide-on-scroll header
+- Toasts, back-to-top, sticky hide-on-scroll header (single-bar navbar — the
+  topbar strip was removed) with the social icons in the footer bottom bar
 - Fully **responsive** (1440 → 360 px), WCAG AA contrast, `prefers-reduced-motion` respected
 
 ## Tech

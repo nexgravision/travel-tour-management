@@ -309,84 +309,13 @@
 }
 
 /* ---------------------------------------------------------
-   HEADER - topbar + navbar
+   HEADER - glass navbar
    --------------------------------------------------------- */
 .site-header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: var(--z-header);
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-}
-
-.topbar {
-  background: linear-gradient(90deg, var(--navy-950), #0a1e38 60%, var(--navy-900));
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.topbar__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 40px;
-}
-
-.topbar__group {
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-  flex-wrap: wrap;
-}
-
-.topbar__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding-block: 0.45rem; /* comfortable tap target on touch */
-  transition: color var(--dur-fast) var(--ease);
-}
-
-.topbar__item svg {
-  width: 0.95rem;
-  height: 0.95rem;
-  fill: var(--gold-400);
-  flex-shrink: 0;
-}
-
-a.topbar__item:hover {
-  color: var(--gold-300);
-}
-
-.topbar__socials {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.topbar__socials a {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  transition:
-    background var(--dur-fast) var(--ease),
-    transform var(--dur-fast) var(--ease);
-}
-
-.topbar__socials a:hover {
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--navy-900);
-  transform: translateY(-2px);
-}
-
-.topbar__socials svg {
-  width: 0.85rem;
-  height: 0.85rem;
-  fill: currentColor;
 }
 
 /* Navbar */
@@ -1057,10 +986,6 @@ a.topbar__item:hover {
 }
 
 @media (max-width: 900px) {
-  .topbar__item--hide {
-    display: none;
-  }
-
   .stats__grid {
     grid-template-columns: repeat(2, 1fr);
     row-gap: 1.8rem;
@@ -1072,19 +997,6 @@ a.topbar__item:hover {
 }
 
 @media (max-width: 640px) {
-  /* Phones get a lean header: drop the topbar and lead with the glass navbar */
-  .topbar {
-    display: none;
-  }
-
-  .topbar__group {
-    gap: 0.8rem;
-  }
-
-  .topbar__group--right .topbar__item {
-    display: none;
-  }
-
   .navbar__inner {
     min-height: 66px;
   }

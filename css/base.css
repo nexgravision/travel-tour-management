@@ -15,13 +15,13 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 110px;
+  scroll-padding-top: 90px; /* fixed navbar (74px) + breathing room */
   -webkit-text-size-adjust: 100%;
   /* clip (not hidden) so pre-reveal transforms never create a horizontal scrollbar */
   overflow-x: clip;
 }
 
-/* Header is shorter once the topbar is dropped on phones */
+/* Phones get the shorter 66px navbar, so a tighter offset */
 @media (max-width: 640px) {
   html {
     scroll-padding-top: 84px;

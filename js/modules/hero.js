@@ -1,9 +1,10 @@
 /* =========================================================
    HERO - interactive destination carousel for the hero section
    Crossfades the hero background between destinations, swaps
-   the hero copy, highlights the active card and keeps the card
-   rail scrolled to it. Vanilla JS, IIFE, no dependencies
-   (NG.$ / NG.$$ come from js/main.js).
+   the hero copy, highlights the active card and slides the
+   three-card window one slot per destination (2 -> 1, 3 -> 2,
+   4 -> 3 ...). Vanilla JS, IIFE, no dependencies (NG.$ /
+   NG.$$ come from js/main.js).
    Exposes window.NG.heroGoTo for other modules.
    ========================================================= */
 (function () {
@@ -16,7 +17,7 @@
   var ENTER_MS = 1400; /* .is-entering heroEnter crossfade */
   var TEXT_MS = 220; /* .is-updating copy fade */
   var PRELOAD_MS = 150; /* stagger between background preloads */
-  var EDGE_PAD = 12; /* px of the next card kept inside the viewport */
+  var SLIDE_MS = 550; /* track slot slide (matches CSS transition) */
   var WIDE_RE = /([?&])w=900(?=&|$)/; /* card thumbnail -> hero width */
   var AUTOPLAY_MS = 6000; /* pause on each slide before auto-advancing */
 
@@ -36,8 +37,10 @@
 
   /* ---------- module state ---------- */
   var slides = [];
-  var cards = [];
   var current = 0;
+  var sliding = false; /* a track slide is in flight */
+  var slideTimer = null; /* its finalize timeout */
+  var slideTarget = 0; /* rest-window start once it lands */
 
   var heroMedia = null;
   var layers = []; /* [0] = the markup layer, [1] = created on demand */
@@ -45,7 +48,6 @@
   var pending = null; /* the background enter that is in flight */
 
   var railEl = null;
-  var viewportEl = null;
   var trackEl = null;
   var indexEl = null;
   var copyEl = null;
@@ -131,56 +133,173 @@
     return out;
   }
 
-  /* ---------- rail cards (built with createElement only) ---------- */
-  function buildRail() {
-    for (var i = 0; i < slides.length; i++) {
-      var slide = slides[i];
+  /* ---------- three-card window (built with createElement only) ----------
+     The track holds a short slice of the ring: the active card in
+     slot 1, then the next two, plus whichever extra cards an
+     in-flight slide needs. Everything is rebuilt from these
+     primitives so the window can never drift from `current`. */
+  function buildCard(idx, activeForCard) {
+    var slide = slides[idx];
+    if (!slide) return null;
 
-      var btn = doc.createElement("button");
-      btn.type = "button";
-      btn.className = "hero__rcard";
-      btn.setAttribute("aria-label", "Show destination: " + slide.location);
-      btn.setAttribute("aria-pressed", "false");
+    var btn = doc.createElement("button");
+    btn.type = "button";
+    btn.className = "hero__rcard";
+    btn.setAttribute("data-idx", String(idx));
+    btn.setAttribute("aria-label", "Show destination: " + slide.location);
+    var on = idx === activeForCard;
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    if (on) btn.classList.add("is-active");
 
-      var img = doc.createElement("img");
-      img.className = "hero__rcard-img";
-      img.setAttribute("src", slide.thumb);
-      img.setAttribute("alt", "");
-      img.setAttribute("loading", i < 3 ? "eager" : "lazy");
-      img.setAttribute("decoding", "async");
-      btn.appendChild(img);
+    var img = doc.createElement("img");
+    img.className = "hero__rcard-img";
+    img.setAttribute("src", slide.thumb);
+    img.setAttribute("alt", "");
+    img.setAttribute("loading", "eager"); /* only a handful exist at a time */
+    img.setAttribute("decoding", "async");
+    btn.appendChild(img);
 
-      var scrim = doc.createElement("span");
-      scrim.className = "hero__rcard-scrim";
-      scrim.setAttribute("aria-hidden", "true");
-      btn.appendChild(scrim);
+    var scrim = doc.createElement("span");
+    scrim.className = "hero__rcard-scrim";
+    scrim.setAttribute("aria-hidden", "true");
+    btn.appendChild(scrim);
 
-      var body = doc.createElement("span");
-      body.className = "hero__rcard-body";
+    var body = doc.createElement("span");
+    body.className = "hero__rcard-body";
 
-      if (slide.country !== "") {
-        var country = doc.createElement("span");
-        country.className = "hero__rcard-country";
-        country.textContent = slide.country;
-        body.appendChild(country);
+    if (slide.country !== "") {
+      var country = doc.createElement("span");
+      country.className = "hero__rcard-country";
+      country.textContent = slide.country;
+      body.appendChild(country);
+    }
+
+    var name = doc.createElement("span");
+    name.className = "hero__rcard-name";
+    name.textContent = slide.place;
+    body.appendChild(name);
+
+    btn.appendChild(body);
+    return btn;
+  }
+
+  function ringIdx(i) {
+    var n = slides.length;
+    return ((i % n) + n) % n;
+  }
+
+  /* Rebuild the whole window at rest: `count` cards starting at
+     `start`, active card highlighted. */
+  function renderWindow(start, count, activeForCard) {
+    if (!trackEl) return;
+    while (trackEl.firstChild) trackEl.removeChild(trackEl.firstChild);
+    for (var k = 0; k < count; k++) {
+      var card = buildCard(ringIdx(start + k), activeForCard);
+      if (card) trackEl.appendChild(card);
+    }
+  }
+
+  /* Top up an existing window (its children already start at `start`). */
+  function ensureWindow(start, count, activeForCard) {
+    if (!trackEl) return;
+    var have = trackEl.children.length;
+    for (var k = have; k < count; k++) {
+      var card = buildCard(ringIdx(start + k), activeForCard);
+      if (card) trackEl.appendChild(card);
+    }
+  }
+
+  function markWindowActive(idx) {
+    if (!trackEl) return;
+    var want = String(idx);
+    var kids = trackEl.children;
+    for (var k = 0; k < kids.length; k++) {
+      var on = kids[k].getAttribute("data-idx") === want;
+      kids[k].classList.toggle("is-active", on);
+      kids[k].setAttribute("aria-pressed", on ? "true" : "false");
+    }
+  }
+
+  /* One slot = card width + gap, measured from the live layout. */
+  function trackPitch() {
+    if (!trackEl || !trackEl.firstChild) return 0;
+    var gap = parseFloat(window.getComputedStyle(trackEl).columnGap) || 0;
+    return trackEl.firstChild.getBoundingClientRect().width + gap;
+  }
+
+  function setTrack(px, instant) {
+    if (!trackEl) return;
+    if (instant) trackEl.classList.add("no-anim");
+    trackEl.style.transform = px ? "translate3d(" + px + "px, 0, 0)" : "";
+    if (instant) {
+      void trackEl.offsetWidth; /* flush the instant position */
+      trackEl.classList.remove("no-anim");
+    }
+  }
+
+  /* Land an in-flight slide immediately: rebuild the rest window for
+     the target and snap the track home with no animation. */
+  function finalizeSlide() {
+    if (slideTimer !== null) {
+      window.clearTimeout(slideTimer);
+      slideTimer = null;
+    }
+    sliding = false;
+    if (!trackEl) return;
+    renderWindow(slideTarget, 4, slideTarget);
+    setTrack(0, true);
+  }
+
+  /* Move the window from `from` to `to`:
+     - forward 1-2 slots: keep the current cards, append the ones the
+       incoming slide needs and translate the track (the new active
+       card slides in already highlighted);
+     - prev (one slot back): rebuild with a lead-in card, snap two
+       slots left with no animation, then slide one slot right;
+     - anything else (programmatic jumps): rebuild instantly.
+     Rapid calls finalize the in-flight slide first, so the window is
+     always at rest before a new one starts. */
+  function slideWindow(from, to) {
+    var n = slides.length;
+    if (sliding) finalizeSlide();
+    if (slideTimer !== null) {
+      window.clearTimeout(slideTimer);
+      slideTimer = null;
+    }
+
+    if (reduce || n < 2 || !trackEl) {
+      renderWindow(to, 4, to);
+      return;
+    }
+
+    var dist = ((to - from) % n + n) % n;
+
+    try {
+      if (dist >= 1 && dist <= 2) {
+        ensureWindow(from, 3 + dist, to);
+        markWindowActive(to);
+        slideTarget = to;
+        sliding = true;
+        setTrack(-dist * trackPitch(), false);
+        slideTimer = window.setTimeout(finalizeSlide, SLIDE_MS);
+        return;
       }
 
-      var name = doc.createElement("span");
-      name.className = "hero__rcard-name";
-      name.textContent = slide.place;
-      body.appendChild(name);
-
-      btn.appendChild(body);
-
-      (function (n) {
-        btn.addEventListener("click", function () {
-          goTo(n);
-        });
-      })(i);
-
-      trackEl.appendChild(btn);
-      cards.push(btn);
+      if (dist === n - 1) {
+        /* prev: [from-2 .. from+2], start two slots in, slide one back */
+        renderWindow(from - 2, 5, to);
+        slideTarget = to;
+        sliding = true;
+        setTrack(-2 * trackPitch(), true);
+        setTrack(-1 * trackPitch(), false);
+        slideTimer = window.setTimeout(finalizeSlide, SLIDE_MS);
+        return;
+      }
+    } catch (err) {
+      warn("hero.js: card window slide failed", err);
     }
+
+    renderWindow(to, 4, to);
   }
 
   /* ---------- background: two layers, newest wins ---------- */
@@ -374,42 +493,10 @@
     }, TEXT_MS);
   }
 
-  /* ---------- rail / index / scroll ---------- */
-  function updateRail(i) {
-    for (var k = 0; k < cards.length; k++) {
-      var on = k === i;
-      cards[k].classList.toggle("is-active", on);
-      cards[k].setAttribute("aria-pressed", on ? "true" : "false");
-    }
-  }
-
+  /* ---------- window / index ---------- */
   function updateIndex(i) {
     if (!indexEl) return;
     indexEl.textContent = pad(i + 1) + " / " + pad(slides.length);
-  }
-
-  function scrollToCard(i) {
-    var card = cards[i];
-    if (!card || !viewportEl) return;
-    try {
-      var left =
-        card.getBoundingClientRect().left -
-        viewportEl.getBoundingClientRect().left +
-        viewportEl.scrollLeft -
-        EDGE_PAD;
-      var max = viewportEl.scrollWidth - viewportEl.clientWidth;
-      if (max < 0) max = 0;
-      if (left < 0) left = 0;
-      if (left > max) left = max;
-
-      try {
-        viewportEl.scrollTo({ left: left, behavior: reduce ? "auto" : "smooth" });
-      } catch (err2) {
-        viewportEl.scrollLeft = left;
-      }
-    } catch (err) {
-      /* scrolling is a nicety - never block navigation */
-    }
   }
 
   /* ---------- autoplay: one timer, three pause reasons ---------- */
@@ -506,9 +593,8 @@
 
     swapBackground(slides[next]);
     updateCopy(next);
-    updateRail(next);
     updateIndex(next);
-    scrollToCard(next);
+    slideWindow(current, next);
 
     current = next;
     syncAutoplay(); /* the countdown restarts from this advance */
@@ -570,7 +656,6 @@
   function init() {
     railEl = NG.$("#heroRail");
     trackEl = NG.$("#heroRailTrack");
-    viewportEl = NG.$("#heroRailViewport");
     indexEl = NG.$("#heroRailIndex");
     copyEl = NG.$("#heroCopy");
     countryEl = NG.$("#heroCountry");
@@ -598,7 +683,20 @@
       if (layers[0]) layers[0].classList.add("is-active");
     }
 
-    buildRail();
+    /* Rest window: the first three destinations (the fourth slot is
+       clipped until a slide needs it). */
+    renderWindow(0, 4, 0);
+
+    /* One delegated handler instead of per-card listeners: the window
+       rebuilds its cards on every slide. */
+    trackEl.addEventListener("click", function (e) {
+      var target = e ? e.target : null;
+      if (!target || typeof target.closest !== "function") return;
+      var card = target.closest(".hero__rcard");
+      if (!card || !trackEl.contains(card)) return;
+      var idx = parseInt(card.getAttribute("data-idx"), 10);
+      if (!isNaN(idx)) goTo(idx);
+    });
 
     if (prevBtn) {
       prevBtn.addEventListener("click", function () {
@@ -621,7 +719,6 @@
     });
 
     updateIndex(0);
-    updateRail(0);
     /* Reconcile the static markup with the first surviving slide: if
        buildSlides() skipped a card, the hero must show what slide 0
        actually is. Idempotent when markup and slide 0 already match. */
