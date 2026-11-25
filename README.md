@@ -13,14 +13,18 @@ grey for metallic hairlines and micro-labels. Classic first-class travel luxury.
 - **Static showcase** — no backend, database, booking or appointment flow; every
   section is plain HTML you can edit directly in `index.html`
 - **Full-screen hero** with cinematic backdrop and CTA buttons, driven by an
-  interactive destination carousel: the 8 destinations sit in a card rail
-  (right edge on desktop ≥1100px, bottom strip below that) and picking one —
-  by clicking its card, the prev/next arrows, or the ArrowLeft / ArrowRight
-  keys while focus is inside the rail — crossfades that photo into the hero
-  background while the country, title, location and description swap to
-  match. The active card is highlighted and carries `aria-pressed="true"`,
-  the `01 / 08` counter and rail scroll follow it, and navigation wraps
-  around at both ends
+  interactive destination carousel: the 8 destinations sit in a card rail —
+  a filmstrip along the bottom of the hero on every screen size, with the
+  nav row (arrows left, `01 / 08` index right) beneath the cards. On PC all
+  8 cards stay visible in the row, growing to fill the width up to a 200px
+  cap each (the strip scrolls horizontally only when the viewport is too
+  narrow), while tablets and phones keep smaller fixed-width cards that
+  scroll horizontally. Picking one — by clicking its card, the prev/next
+  arrows, or the ArrowLeft / ArrowRight keys while focus is inside the rail
+  — crossfades that photo into the hero background while the country,
+  title, location and description swap to match. The active card is
+  highlighted and carries `aria-pressed="true"`, the `01 / 08` counter and
+  rail scroll follow it, and navigation wraps around at both ends
 - **Hero auto-rotation** — the carousel advances through all 8 destinations
   every 6 seconds (the first advance lands 6s after page load), wraps from
   the last destination back to the first and loops forever instead of

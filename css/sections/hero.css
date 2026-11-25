@@ -140,7 +140,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  /* A slide with a longer description can make the copy taller than
+     the space left above the filmstrip: plain `center` would overflow
+     the bottom padding and push the CTAs into the rail. `safe center`
+     falls back to top-alignment in that case (there is ~150px of
+     navbar clearance above to absorb it). The plain value stays first
+     as the fallback for engines without overflow-alignment. */
   justify-content: center;
+  justify-content: safe center;
   padding-top: var(--hero-pad-top);
   padding-bottom: clamp(1.6rem, 5vh, 3rem);
 }
@@ -294,8 +301,10 @@
 /* ---------------------------------------------------------
    DESTINATION RAIL - horizontal card carousel (#heroRail)
    Built by js/modules/hero.js and hidden until it adds
-   .is-ready. Desktop parks it on the right edge of the hero;
-   below 1100px it becomes a horizontal strip under the copy.
+   .is-ready. On every breakpoint it flows after .hero__inner at
+   the bottom edge of the hero as a filmstrip: all eight cards
+   share one row on desktop, while tablet/phone keep smaller
+   cards that scroll sideways.
    --------------------------------------------------------- */
 .hero__rail {
   display: none;
@@ -303,12 +312,30 @@
 
 .hero__rail.is-ready {
   display: block;
+  /* Bottom filmstrip everywhere: the rail flows after .hero__inner in
+     the hero's flex column, so it lands on the bottom edge of the
+     hero (the hero grows past min-height when the viewport is too
+     short) and can never overlap the copy. Not `position: static`:
+     a non-positioned rail would paint UNDER the full-bleed
+     .hero__overlay scrim (z-index 1), so it stays relative and keeps
+     z-index: 3 (above .hero__inner at z2). */
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding: 0 clamp(20px, 5vw, 40px) clamp(20px, 4vh, 36px);
+}
+
+/* The `hidden` attribute must win even if a future change leaves it
+   alongside .is-ready (same specificity, later in source). */
+.hero__rail[hidden] {
+  display: none;
 }
 
 /* Native horizontal scroller - JS only calls scrollTo(). The vertical
    padding + matching negative margins keep the card hover/active scale
    and most of the soft card shadow from being clipped by the overflow
-   box (the largest shadow still fades out slightly inside it). */
+   box (the largest shadow still fades out slightly inside it); the
+   desktop filmstrip deepens this at >= 1100px. */
 .hero__rail-viewport {
   overflow-x: auto;
   overflow-y: hidden;
@@ -513,29 +540,92 @@
 }
 
 /* ---------------------------------------------------------
-   RAIL - DESKTOP PLACEMENT (>= 1100px)
-   Pinned to the right edge inside .hero's stacking context:
-   .hero__overlay z1 < .hero__inner z2 < .hero__rail z3.
-   The copy is clamped at the same breakpoint, and the rail keeps a
-   left gutter: between 1100px and ~1150px (where --gutter is already
-   capped and a classic scrollbar inflates vw while right:0 tracks the
-   narrower layout box) the two boxes would otherwise meet, so the
-   gutter guarantees clear air over the subtitle lines.
+   RAIL - DESKTOP FILMSTRIP (>= 1100px)
+   Full-width strip along the bottom edge of the hero: the eight
+   cards split the row evenly and grow with the viewport (capped),
+   so the strip reads as one premium image band. Nothing is pinned
+   and the copy keeps its full container width, so there is no
+   copy/rail overlap to defend against: the rail stays in the flow
+   (relative, z3 above .hero__overlay z1) and .hero simply grows
+   past min-height if the viewport is too short for both blocks.
    --------------------------------------------------------- */
 @media (min-width: 1100px) {
+  /* A little more side/bottom air than the compact widths get */
   .hero__rail.is-ready {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    z-index: 3;
-    width: min(44vw, 620px);
-    padding-left: clamp(12px, 2vw, 32px);
-    padding-right: clamp(24px, 4vw, 72px);
+    padding: 0 clamp(24px, 4vw, 72px) clamp(20px, 3.5vh, 40px);
   }
 
-  .hero__copy {
-    width: min(52vw, 600px);
+  /* Clear the full --sh-card-hover shadow (0 20px 46px reaches 66px
+     below the card) with the deeper bottom padding, matched by an
+     equal negative margin so the nav keeps its exact place - the clip
+     box grows downwards without changing the flow height, and the
+     shadow softens over the nav instead of ending in a hard cut.
+     Top padding drops to 8px: the box must stay clear of the CTA row
+     (.hero__inner keeps >= 12px of bottom padding, which absorbs it),
+     while still leaving room for the focus ring. */
+  .hero__rail-viewport {
+    padding: 8px 0 66px;
+    margin: -8px 0 -66px;
+  }
+
+  /* Once the cards hit their cap, leftover space centres the group
+     instead of stranding a dead gap on the right. `safe` degrades to
+     flex-start where unsupported, so an overflowing row can never
+     strand the first card's left edge off-screen. */
+  .hero__rail-track {
+    justify-content: safe center;
+  }
+
+  /* All eight cards share the row: they grow with the viewport but
+     never below 116px (if even that does not fit, the track's
+     min-width: max-content keeps the viewport scrolling sideways as
+     before) and never above 200px. aspect-ratio: 3/4 still governs
+     until max-height clamps the strip on wide screens; the
+     object-fit: cover image absorbs the ratio change. The height cap
+     also scales with the viewport (24vh) so short laptop screens keep
+     the whole strip - nav row included - above the fold. */
+  .hero__rcard {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 116px;
+    max-width: 200px;
+    max-height: min(250px, 24vh);
+  }
+
+  /* The strip carries its own bottom padding - reclaim that room from
+     the copy block so copy and cards never crowd each other.
+     .hero__inner is justify-content: center in the flex column, so
+     the copy stays centred in the space left above the strip. */
+  .hero__inner {
+    padding-bottom: clamp(0.75rem, 2.5vh, 1.5rem);
+  }
+}
+
+/* Short desktop screens (the common 1280x720 / 1366x768 laptops):
+   copy stack + filmstrip would otherwise push the nav row (arrows and
+   index) below the fold. Tighten the vertical rhythm instead of
+   letting the hero scroll - the headline scales with the available
+   height, and the fixed navbar clearance (--hero-pad-top) stays above
+   the ~114px topbar + navbar stack. */
+@media (min-width: 1100px) and (max-height: 820px) {
+  .hero {
+    --hero-pad-top: 128px;
+  }
+
+  .hero__title {
+    font-size: clamp(2.4rem, 6vh, 3.4rem);
+  }
+
+  .hero__rail.is-ready {
+    padding-bottom: 14px;
+  }
+
+  .hero__rail-nav {
+    padding-top: 10px;
+  }
+
+  .hero__inner {
+    padding-bottom: clamp(8px, 1.5vh, 12px);
   }
 }
 
@@ -544,19 +634,9 @@
    --------------------------------------------------------- */
 
 @media (max-width: 1099px) {
-  /* The rail leaves the right edge and flows after .hero__inner in
-     the hero's flex column - it can never overlap the copy here.
-     Not `position: static`: a non-positioned rail would paint UNDER
-     the full-bleed .hero__overlay scrim (z-index 1), so it stays
-     relative and keeps the desktop z-index: 3. */
-  .hero__rail.is-ready {
-    position: relative;
-    z-index: 3;
-    transform: none;
-    width: 100%;
-    padding: 0 clamp(20px, 5vw, 40px) clamp(20px, 4vh, 36px);
-  }
-
+  /* Positioning (relative bottom strip, z-index, width, padding) now
+     lives in the base .hero__rail.is-ready rule - only the compact
+     card sizing differs here. */
   .hero__rcard {
     width: clamp(108px, 20vw, 150px);
   }
